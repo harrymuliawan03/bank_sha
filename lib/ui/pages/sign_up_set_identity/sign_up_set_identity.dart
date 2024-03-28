@@ -131,10 +131,7 @@ class _SignUpSetIdentityPageState extends State<SignUpSetIdentityPage> {
                     const SizedBox(
                       height: 50,
                     ),
-                    ButtonWidget(
-                        onPress: () =>
-                            context.goNamed(RouteNames.signUpSuccess),
-                        title: 'Continue')
+                    ButtonWidget(onPress: () {}, title: 'Continue')
                   ],
                 ),
               ),
