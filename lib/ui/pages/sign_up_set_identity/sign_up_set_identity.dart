@@ -1,13 +1,29 @@
+import 'dart:io';
+
 import 'package:bank_sha/configs/router/route_names.dart';
+import 'package:bank_sha/models/sign_up_form_model.dart';
+import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button_widget.dart';
-import 'package:bank_sha/ui/widgets/input_widget.dart';
 import 'package:bank_sha/ui/widgets/text_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
-class SignUpSetIdentityPage extends StatelessWidget {
-  const SignUpSetIdentityPage({super.key});
+class SignUpSetIdentityPage extends StatefulWidget {
+  const SignUpSetIdentityPage({
+    super.key,
+    required this.data,
+  });
+
+  final SignUpFormModel data;
+
+  @override
+  State<SignUpSetIdentityPage> createState() => _SignUpSetIdentityPageState();
+}
+
+class _SignUpSetIdentityPageState extends State<SignUpSetIdentityPage> {
+  XFile? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +82,40 @@ class SignUpSetIdentityPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: kLightGreyColor,
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/ic_upload.png',
-                          width: 32,
-                          height: 32,
+                    GestureDetector(
+                      onTap: () async {
+                        final image = await selectImage();
+
+                        setState(() {
+                          selectedImage = image;
+                        });
+                      },
+                      child: Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: kLightGreyColor,
+                          image: selectedImage == null
+                              ? null
+                              : DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: FileImage(
+                                    File(
+                                      selectedImage!.path,
+                                    ),
+                                  ),
+                                ),
                         ),
+                        child: selectedImage != null
+                            ? null
+                            : Center(
+                                child: Image.asset(
+                                  'assets/ic_upload.png',
+                                  width: 32,
+                                  height: 32,
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(

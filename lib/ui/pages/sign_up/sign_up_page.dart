@@ -1,5 +1,6 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
+import 'package:bank_sha/models/sign_up_form_model.dart';
 import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/ui/widgets/button_widget.dart';
@@ -41,11 +42,16 @@ class _SignUpPageState extends State<SignUpPage> {
           if (state is AuthCheckEmailExistSuccess) {
             context.pushNamed(
               RouteNames.signUpProfile,
-              extra: {
-                'name': nameController.text,
-                'email': emailController.text,
-                'password': passwordController.text
-              },
+              extra: SignUpFormModel().copyWith(
+                name: nameController.text,
+                email: emailController.text,
+                password: passwordController.text,
+              ),
+              // {
+              //   'name': nameController.text,
+              //   'email': emailController.text,
+              //   'password': passwordController.text
+              // },
             );
           }
         },

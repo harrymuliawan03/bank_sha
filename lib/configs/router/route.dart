@@ -60,12 +60,9 @@ final GoRouter router = GoRouter(
           name: RouteNames.signUpProfile,
           path: 'sign-up-profile',
           builder: (BuildContext context, GoRouterState state) {
-            final data = state.extra! as Map<String, dynamic>;
+            final data = state.extra! as SignUpFormModel;
             return SignUpSetProfilePage(
-              data: SignUpFormModel(
-                  name: data['name'],
-                  email: data['email'],
-                  password: data['password']),
+              data: data,
             );
           },
           routes: [
@@ -73,7 +70,10 @@ final GoRouter router = GoRouter(
               name: RouteNames.signUpIdentity,
               path: 'sign-up-identity',
               builder: (BuildContext context, GoRouterState state) {
-                return const SignUpSetIdentityPage();
+                final data = state.extra! as SignUpFormModel;
+                return SignUpSetIdentityPage(
+                  data: data,
+                );
               },
             ),
           ],

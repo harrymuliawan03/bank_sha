@@ -1,4 +1,4 @@
-import 'package:bank_sha/shared/auth_services.dart';
+import 'package:bank_sha/services/auth_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
