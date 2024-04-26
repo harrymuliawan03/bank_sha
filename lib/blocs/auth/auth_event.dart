@@ -8,9 +8,49 @@ sealed class AuthEvent extends Equatable {
 }
 
 class AuthCheckEmailExist extends AuthEvent {
-  final String email;
+  final CheckEmailFormModel email;
   const AuthCheckEmailExist(this.email);
 
   @override
   List<Object> get props => [email];
 }
+
+class AuthRegister extends AuthEvent {
+  final SignUpFormModel data;
+  const AuthRegister(this.data);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [data];
+}
+
+class AuthLogin extends AuthEvent {
+  final SignInFormModel data;
+  const AuthLogin(this.data);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [data];
+}
+
+class AuthGetCurrentUser extends AuthEvent {}
+
+class AuthUpdateUser extends AuthEvent {
+  final UserModel user;
+  final ProfileEditFormModel data;
+  const AuthUpdateUser(this.user, this.data);
+
+  @override
+  List<Object> get props => [user, data];
+}
+
+class AuthUpdatePin extends AuthEvent {
+  final UserModel user;
+  final ProfileEditPinFormModel data;
+  const AuthUpdatePin(this.user, this.data);
+
+  @override
+  List<Object> get props => [user, data];
+}
+
+class AuthLogout extends AuthEvent {}

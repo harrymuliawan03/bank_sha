@@ -20,3 +20,12 @@ final class AuthFailed extends AuthState {
 }
 
 final class AuthCheckEmailExistSuccess extends AuthState {}
+
+final class AuthSuccess extends AuthState {
+  final UserModel user;
+  const AuthSuccess(this.user);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [user];
+}
