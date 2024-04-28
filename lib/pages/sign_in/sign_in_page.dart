@@ -32,14 +32,10 @@ class _SignInPageState extends State<SignInPage> {
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           return SignInContent(
             emailController: emailController,
             passwordController: passwordController,
+            isLoading: state is AuthLoading,
           );
         },
       ),
