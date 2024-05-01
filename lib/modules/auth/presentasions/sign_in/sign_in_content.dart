@@ -5,6 +5,7 @@ import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:bank_sha/shared/widgets/input_widget.dart';
+import 'package:bank_sha/shared/widgets/screen_loading.dart';
 import 'package:bank_sha/shared/widgets/text_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -143,17 +144,7 @@ class SignInContent extends StatelessWidget {
               ],
             ),
           ),
-          if (isLoading)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: kPurpleColor,
-                  ),
-                ),
-              ),
-            ),
+          if (isLoading) const ScreenLoading(),
         ],
       ),
     );
