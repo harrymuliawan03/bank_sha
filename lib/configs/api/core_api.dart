@@ -88,8 +88,7 @@ Future<ResponseUseCase<T>> postData<T>(String url, dynamic body) async {
   }
 }
 
-Future<ResponseUseCase<T>> postDataWithToken<T>(
-    String url, dynamic body) async {
+Future<HttpResponse> postDataWithToken(String url, dynamic body) async {
   try {
     String token = await getToken();
 
@@ -97,7 +96,7 @@ Future<ResponseUseCase<T>> postDataWithToken<T>(
       Uri.parse('$baseUrl$url'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.contentTypeHeader: 'application/json',
+        // HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: token
       },
       body: body?.toJson(),
@@ -106,7 +105,12 @@ Future<ResponseUseCase<T>> postDataWithToken<T>(
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return ResponseUseCase<T>(valid: true, message: 'Success', data: data);
+      return HttpResponse(
+        success: true,
+        data: data,
+        status: true,
+        message: 'Succesfully get data',
+      );
     }
 
     String message;
@@ -116,9 +120,15 @@ Future<ResponseUseCase<T>> postDataWithToken<T>(
     } else {
       message = jsonDecode(response.body)['message'];
     }
-    return ResponseUseCase<T>(valid: false, message: message);
+    return HttpResponse(
+      success: false,
+      data: null,
+      status: false,
+      message: message,
+    );
   } catch (error) {
-    return ResponseUseCase<T>(valid: false, message: error.toString());
+    return HttpResponse(
+        success: false, data: null, status: false, message: error.toString());
   }
 }
 
@@ -158,26 +168,37 @@ Future<ResponseUseCase<T>> putDataWithToken<T>(String url, dynamic body) async {
   }
 }
 
-Future<HttpResponse> getDataWithToken<T>(String url, String? token) async {
+Future<HttpResponse<T>> getDataWithToken<T>(
+    String url, String? token, bool? isList) async {
   try {
+    String token = await getToken();
+
+    print(token);
     final response = await http.get(
       Uri.parse('$baseUrl$url'),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader:
-            'Bearer 4001|8yjXOoma9IbgeUkd9Tl4dZjUNhIFP6He6NvXXN94e58a3c76'
+        HttpHeaders.authorizationHeader: token,
       },
     );
 
-    final data = json.decode(response.body);
+    T data;
+
+    if (isList ?? false) {
+      data = List<Map<String, dynamic>>.from(json.decode(response.body)) as T;
+    } else {
+      data = json.decode(response.body);
+    }
+
+    final tes = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return HttpResponse(
+      return HttpResponse<T>(
         success: true,
-        data: data['data'],
+        data: data,
         status: true,
-        message: data['message'] ?? 'Succesfully get data',
+        message: 'Succesfully get data',
       );
     }
 
@@ -188,14 +209,14 @@ Future<HttpResponse> getDataWithToken<T>(String url, String? token) async {
     } else {
       message = jsonDecode(response.body)['message'];
     }
-    return HttpResponse(
+    return HttpResponse<T>(
       success: false,
       data: null,
       status: false,
       message: message,
     );
   } catch (error) {
-    return HttpResponse(
+    return HttpResponse<T>(
         success: false, data: null, status: false, message: error.toString());
   }
 }

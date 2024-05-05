@@ -33,13 +33,13 @@ Future<ResponseUseCase<T>> checkEmailExistRepo<T>(
 }
 
 Future<HttpResponse> getUserRepo<T>(SignInFormModel data) async {
-  var res = await getDataWithToken<T>('/profile', null);
+  var res = await getDataWithToken<T>('/profile', null, false);
 
   return res;
 }
 
-Future<ResponseUseCase<T>> logoutRepo<T>() async {
-  var res = await postDataWithToken<T>('/logout', null);
+Future<HttpResponse> logoutRepo<T>() async {
+  var res = await postDataWithToken('/logout', null);
 
   return res;
 }

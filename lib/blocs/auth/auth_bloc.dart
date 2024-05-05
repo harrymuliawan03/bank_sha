@@ -116,6 +116,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
 
+      if (event is AuthUpdateBalance) {
+        if (state is AuthSuccess) {
+          final updateUser = (state as AuthSuccess).user.copyWith(
+                balance: (state as AuthSuccess).user.balance! + event.amount,
+              );
+
+          emit(AuthSuccess(updateUser));
+        }
+      }
+
       if (event is AuthGetCurrentUser) {
         try {
           final SignInFormModel data =

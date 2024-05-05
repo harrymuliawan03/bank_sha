@@ -9,7 +9,7 @@ class CoreResponseApi {
 }
 
 class HttpResponse<T> extends CoreResponseApi {
-  final Map<String, dynamic>? data;
+  final T? data;
   final Details? details;
   final Map<String, List<String>>? errors;
   final String? error;

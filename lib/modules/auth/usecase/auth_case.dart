@@ -96,7 +96,7 @@ Future<ResponseUseCase<UserModel>> getProfileCase(SignInFormModel data) async {
 Future<ResponseUseCase> logoutCase() async {
   var res = await logoutRepo<Map<String, dynamic>>();
 
-  if (res.valid) {
+  if (res.success) {
     await AuthServices().clearLocalStorage();
     return ResponseUseCase(
       valid: true,

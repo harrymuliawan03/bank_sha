@@ -1,5 +1,6 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
 import 'package:bank_sha/blocs/profile/profile_bloc.dart';
+import 'package:bank_sha/blocs/user/user_bloc.dart';
 import 'package:bank_sha/configs/router/route.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,9 @@ class BankSha extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc()..add(AuthGetCurrentUser()),
+        ),
+        BlocProvider(
+          create: (context) => UserBloc(),
         ),
       ],
       child: MaterialApp.router(

@@ -1,5 +1,6 @@
 import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/modules/auth/models/sign_up_form_model.dart';
+import 'package:bank_sha/modules/topup/models/topup_request_model.dart';
 import 'package:bank_sha/pages/data_package/data_package_page.dart';
 import 'package:bank_sha/pages/data_provider/data_provider_page.dart';
 import 'package:bank_sha/pages/data_success/data_success_page.dart';
@@ -148,7 +149,11 @@ final GoRouter router = GoRouter(
               name: RouteNames.topupAmount,
               path: 'topup-amount',
               builder: (BuildContext context, GoRouterState state) {
-                return const TopupAmountPage();
+                final data = state.extra! as TopupRequestModel;
+                print(data);
+                return TopupAmountPage(
+                  data: data,
+                );
               },
             ),
             GoRoute(
