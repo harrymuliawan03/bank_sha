@@ -107,7 +107,7 @@ Future<HttpResponse> postDataWithToken(String url, dynamic body) async {
     if (response.statusCode == 200) {
       return HttpResponse(
         success: true,
-        data: data,
+        response: data,
         status: true,
         message: 'Succesfully get data',
       );
@@ -122,13 +122,16 @@ Future<HttpResponse> postDataWithToken(String url, dynamic body) async {
     }
     return HttpResponse(
       success: false,
-      data: null,
+      response: null,
       status: false,
       message: message,
     );
   } catch (error) {
     return HttpResponse(
-        success: false, data: null, status: false, message: error.toString());
+        success: false,
+        response: null,
+        status: false,
+        message: error.toString());
   }
 }
 
@@ -183,20 +186,12 @@ Future<HttpResponse<T>> getDataWithToken<T>(
       },
     );
 
-    T data;
-
-    if (isList ?? false) {
-      data = List<Map<String, dynamic>>.from(json.decode(response.body)) as T;
-    } else {
-      data = json.decode(response.body);
-    }
-
-    final tes = json.decode(response.body);
+    final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
       return HttpResponse<T>(
         success: true,
-        data: data,
+        response: data,
         status: true,
         message: 'Succesfully get data',
       );
@@ -211,13 +206,16 @@ Future<HttpResponse<T>> getDataWithToken<T>(
     }
     return HttpResponse<T>(
       success: false,
-      data: null,
+      response: null,
       status: false,
       message: message,
     );
   } catch (error) {
     return HttpResponse<T>(
-        success: false, data: null, status: false, message: error.toString());
+        success: false,
+        response: null,
+        status: false,
+        message: error.toString());
   }
 }
 
@@ -235,7 +233,7 @@ Future<HttpResponse> getData<T>(String url, String? token) async {
     if (response.statusCode == 200) {
       return HttpResponse(
         success: true,
-        data: data['data'],
+        response: data['data'],
         status: true,
         message: data['message'] ?? 'Succesfully get data',
       );
@@ -250,13 +248,16 @@ Future<HttpResponse> getData<T>(String url, String? token) async {
     }
     return HttpResponse(
       success: false,
-      data: null,
+      response: null,
       status: false,
       message: message,
     );
   } catch (error) {
     return HttpResponse(
-        success: false, data: null, status: false, message: error.toString());
+        success: false,
+        response: null,
+        status: false,
+        message: error.toString());
   }
 }
 
@@ -275,7 +276,7 @@ Future<HttpResponse> deleteData<T>(String url, dynamic body) async {
     if (response.statusCode == 200) {
       return HttpResponse(
         success: true,
-        data: data['data'],
+        response: data['data'],
         status: true,
         message: data['message'] ?? 'Succesfully delete data',
       );
@@ -290,12 +291,15 @@ Future<HttpResponse> deleteData<T>(String url, dynamic body) async {
     }
     return HttpResponse(
       success: false,
-      data: null,
+      response: null,
       status: false,
       message: message,
     );
   } catch (error) {
     return HttpResponse(
-        success: false, data: null, status: false, message: error.toString());
+        success: false,
+        response: null,
+        status: false,
+        message: error.toString());
   }
 }

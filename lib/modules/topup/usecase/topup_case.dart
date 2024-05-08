@@ -10,7 +10,7 @@ Future<ResponseUseCase<List<PaymentMethodModel>>> getPaymentMethodCase() async {
   var res = await getPaymentMethodRepo<List<Map<String, dynamic>>>();
 
   if (res.success) {
-    List<PaymentMethodModel> data = List<PaymentMethodModel>.from(res.data!
+    List<PaymentMethodModel> data = List<PaymentMethodModel>.from(res.response!
         .map((paymentMethod) => PaymentMethodModel.fromJson(paymentMethod)));
 
     return ResponseUseCase<List<PaymentMethodModel>>(
@@ -31,7 +31,7 @@ Future<ResponseUseCase<TopupResponseModel>> topupCase(
   var res = await topupRepo(data);
 
   if (res.success) {
-    TopupResponseModel data = TopupResponseModel.fromJson(res.data);
+    TopupResponseModel data = TopupResponseModel.fromJson(res.response);
 
     return ResponseUseCase<TopupResponseModel>(
       valid: true,

@@ -9,7 +9,7 @@ class CoreResponseApi {
 }
 
 class HttpResponse<T> extends CoreResponseApi {
-  final T? data;
+  final dynamic response;
   final Details? details;
   final Map<String, List<String>>? errors;
   final String? error;
@@ -18,7 +18,7 @@ class HttpResponse<T> extends CoreResponseApi {
   HttpResponse({
     required bool success,
     required bool status,
-    required this.data,
+    required this.response,
     this.details,
     this.errors,
     this.error,
@@ -31,7 +31,7 @@ class HttpResponse<T> extends CoreResponseApi {
         );
 
   HttpResponse.fromJson(Map<String, dynamic> json)
-      : data = json['data'],
+      : response = json['data'],
         details = Details.fromJson(json['details']),
         errors = (json['errors'] as Map<String, dynamic>?)?.map(
             (key, value) => MapEntry(key, List<String>.from(value as List))),

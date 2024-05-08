@@ -79,7 +79,7 @@ Future<ResponseUseCase<UserModel>> getProfileCase(SignInFormModel data) async {
   );
 
   if (res.success) {
-    final user = UserModel.fromJson(res.data!);
+    final user = UserModel.fromJson(res.response!);
     return ResponseUseCase<UserModel>(
       valid: true,
       message: res.message,
