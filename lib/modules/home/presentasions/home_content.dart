@@ -102,6 +102,7 @@ class HomeContent extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
+          print('haai ${state.user.profilePicture == null}');
           return Container(
             margin: const EdgeInsets.only(
               top: 40,
@@ -140,7 +141,8 @@ class HomeContent extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: state.user.profilePicture == null
+                        image: (state.user.profilePicture == null ||
+                                state.user.profilePicture == '')
                             ? const AssetImage(
                                 'assets/img_profile.png',
                               )

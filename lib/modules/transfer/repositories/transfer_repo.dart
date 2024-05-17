@@ -7,9 +7,8 @@ Future<HttpResponse<T>> getUserByUsernameRepo<T>(String username) async {
   return res;
 }
 
-Future<HttpResponse<T>> getRecentUsersRepo<T>() async {
-  var res =
-      await getDataWithToken<T>('/transfer_histories?limit=10', null, true);
+// Future<HttpResponse> topupRepo(TopupRequestModel data) async {
+//   var res = await postDataWithToken('/top_ups', data);
 
-  return res.copyWith(response: res.response['data']);
-}
+//   return res;
+// }

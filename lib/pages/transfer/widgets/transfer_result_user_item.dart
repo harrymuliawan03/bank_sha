@@ -69,7 +69,7 @@ class TransferResultUserItem extends StatelessWidget {
             height: 13,
           ),
           Text(
-            'Wesley Sananta',
+            'Wesley Santana',
             // user.name.toString(),
             style: blackTextStyle.copyWith(
               fontSize: 16,
@@ -81,7 +81,7 @@ class TransferResultUserItem extends StatelessWidget {
             height: 2,
           ),
           Text(
-            '@wesleySananta',
+            '@wesleySantana',
             // '@${user.username}',
             style: greyTextStyle.copyWith(
               fontSize: 12,

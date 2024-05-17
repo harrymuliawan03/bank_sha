@@ -11,9 +11,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserEvent>((event, emit) async {
       if (event is UserGetRecentUsers) {
         try {
+          emit(UserLoading());
+
           final res = await getRecentUsersCase();
 
-          print(res.message);
+          if (res.valid) {
+            emit(UserSuccess(res.data!));
+          } else {
+            emit(UserFailed(res.message));
+          }
+        } catch (e) {
+          emit(UserFailed(e.toString()));
+        }
+      }
+
+      if (event is UserGetUserByUsername) {
+        try {
+          emit(UserLoading());
+
+          final res = await getUserByUsernameCase(event.username);
+
           if (res.valid) {
             emit(UserSuccess(res.data!));
           } else {

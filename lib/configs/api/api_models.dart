@@ -39,6 +39,24 @@ class HttpResponse<T> extends CoreResponseApi {
         message = json['message'],
         // Call the superclass constructor with required arguments
         super(success: json['success'], status: json['status']);
+
+  HttpResponse<T> copyWith(
+          {bool? success,
+          bool? status,
+          dynamic response,
+          Details? details,
+          Map<String, List<String>>? errors,
+          String? error,
+          String? message}) =>
+      HttpResponse(
+        success: success ?? this.success,
+        status: status ?? this.status,
+        response: response ?? this.response,
+        details: details ?? this.details,
+        errors: errors ?? this.errors,
+        error: error ?? this.error,
+        message: message ?? this.message,
+      );
 }
 
 class Details {

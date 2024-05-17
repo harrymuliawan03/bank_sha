@@ -3,11 +3,11 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class TransferRecentUserItem extends StatelessWidget {
-  // final UserModel user;
+  final UserModel user;
 
   const TransferRecentUserItem({
     super.key,
-    // required this.user,
+    required this.user,
   });
 
   @override
@@ -29,26 +29,23 @@ class TransferRecentUserItem extends StatelessWidget {
             margin: const EdgeInsets.only(
               right: 14,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: AssetImage(
-                'assets/img_profile.png',
-              )
-                  // user.profilePicture == null || user.profilePicture!.isEmpty
-                  // ? const AssetImage(
-                  //     'assets/img_profile.png',
-                  //   )
-                  // : NetworkImage(user.profilePicture!) as ImageProvider,
-                  ),
+                image:
+                    user.profilePicture == null || user.profilePicture!.isEmpty
+                        ? const AssetImage(
+                            'assets/img_profile.png',
+                          )
+                        : NetworkImage(user.profilePicture!) as ImageProvider,
+              ),
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Wesley Sananta',
-                // user.name.toString(),
+                user.name.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
@@ -58,8 +55,7 @@ class TransferRecentUserItem extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                '@wesleySananta',
-                // '@${user.username}',
+                '@${user.username}',
                 style: greyTextStyle.copyWith(
                   fontSize: 12,
                 ),
@@ -67,26 +63,26 @@ class TransferRecentUserItem extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          // if (user.verified == 1)
-          Row(
-            children: [
-              Icon(
-                Icons.check_circle,
-                size: 14,
-                color: kGreenColor,
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              Text(
-                'Verified',
-                style: greenTextStyle.copyWith(
-                  fontSize: 11,
-                  fontWeight: medium,
+          if (user.verified == 1)
+            Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  size: 14,
+                  color: kGreenColor,
                 ),
-              ),
-            ],
-          ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  'Verified',
+                  style: greenTextStyle.copyWith(
+                    fontSize: 11,
+                    fontWeight: medium,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

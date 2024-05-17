@@ -61,7 +61,8 @@ class ProfileContent extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: state.user.profilePicture == null
+                                image: (state.user.profilePicture == null ||
+                                        state.user.profilePicture == '')
                                     ? const AssetImage(
                                         'assets/img_profile.png',
                                       )

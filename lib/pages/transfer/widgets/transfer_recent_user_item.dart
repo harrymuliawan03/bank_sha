@@ -47,7 +47,7 @@ class TransferRecentUserItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Wesley Sananta',
+                'Wesley Santana',
                 // user.name.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 16,
@@ -58,7 +58,7 @@ class TransferRecentUserItem extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                '@wesleySananta',
+                '@wesleySantana',
                 // '@${user.username}',
                 style: greyTextStyle.copyWith(
                   fontSize: 12,

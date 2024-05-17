@@ -28,6 +28,23 @@ class _TopupContentState extends State<TopupContent> {
           'Top Up',
         ),
       ),
+      floatingActionButton: (selectedPaymentMethod != null)
+          ? Container(
+              margin: EdgeInsets.all(defaultMargin),
+              child: CustomFilledButton(
+                title: 'Continue',
+                onPressed: () {
+                  context.goNamed(
+                    RouteNames.topupAmount,
+                    extra: TopupRequestModel(
+                      paymentMethodCode: selectedPaymentMethod?.code,
+                    ),
+                  );
+                },
+              ),
+            )
+          : Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -131,21 +148,6 @@ class _TopupContentState extends State<TopupContent> {
                 ),
                 const SizedBox(
                   height: 12,
-                ),
-                if (selectedPaymentMethod != null)
-                  CustomFilledButton(
-                    title: 'Continue',
-                    onPressed: () {
-                      context.goNamed(
-                        RouteNames.topupAmount,
-                        extra: TopupRequestModel(
-                          paymentMethodCode: selectedPaymentMethod?.code,
-                        ),
-                      );
-                    },
-                  ),
-                const SizedBox(
-                  height: 57,
                 ),
               ],
             );

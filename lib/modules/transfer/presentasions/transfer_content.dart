@@ -7,6 +7,7 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:bank_sha/shared/widgets/forms_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,6 +38,25 @@ class _TransferContentState extends State<TransferContent> {
           'Transfer',
         ),
       ),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.all(24),
+        child: CustomFilledButton(
+          title: 'Continue',
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => TransferAmountPage(
+            //       data: TransferFormModel(
+            //         sendTo: selectedUser?.username,
+            //       ),
+            //     ),
+            //   ),
+            // );
+          },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
@@ -60,11 +80,11 @@ class _TransferContentState extends State<TransferContent> {
             isShowTitle: false,
             controller: usernameController,
             onFieldSubmitted: (value) {
-              // if (value.isNotEmpty) {
-              //   userBloc.add(UserGetByUsername(usernameController.text));
-              // } else {
-              //   userBloc.add(UserGetRecent());
-              // }
+              if (value.isNotEmpty) {
+                userBloc.add(UserGetUserByUsername(usernameController.text));
+              } else {
+                userBloc.add(UserGetRecentUsers());
+              }
               setState(() {});
             },
           ),
@@ -77,25 +97,6 @@ class _TransferContentState extends State<TransferContent> {
           ),
         ],
       ),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.all(24),
-        child: CustomFilledButton(
-          title: 'Continue',
-          onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => TransferAmountPage(
-            //       data: TransferFormModel(
-            //         sendTo: selectedUser?.username,
-            //       ),
-            //     ),
-            //   ),
-            // );
-          },
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -119,40 +120,36 @@ class _TransferContentState extends State<TransferContent> {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              return Column(children: [
-                GestureDetector(
-                  onTap: () {
-                    context.goNamed(RouteNames.transferAmount);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => TransferAmountPage(
-                    //       data: TransferFormModel(
-                    //         sendTo: user.username,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                  child: const TransferRecentUserItem(),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    context.goNamed(RouteNames.transferAmount);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => TransferAmountPage(
-                    //       data: TransferFormModel(
-                    //         sendTo: user.username,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                  child: const TransferRecentUserItem(),
-                )
-              ]);
+              if (state is UserSuccess) {
+                if (state.users.isNotEmpty) {
+                  return Column(
+                    children: state.users
+                        .map(
+                          (user) => GestureDetector(
+                            onTap: () {
+                              context.goNamed(RouteNames.transferAmount);
+                            },
+                            child: TransferRecentUserItem(
+                              user: user,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                }
+                return Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    child: Text(
+                      'Tidak ada transaksi terakhir',
+                      style: blackTextStyle.copyWith(fontWeight: light),
+                    ),
+                  ),
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             },
           ),
         ],
@@ -178,47 +175,38 @@ class _TransferContentState extends State<TransferContent> {
           const SizedBox(
             height: 14,
           ),
-          Wrap(
-            spacing: 17,
-            runSpacing: 17,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  // setState(() {
-                  //   selectedUser = user;
-                  // });
-                },
-                child: const TransferResultUserItem(
-                  // user: user,
-                  // isSelected: user.id == selectedUser?.id,
-                  isSelected: true,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // setState(() {
-                  //   selectedUser = user;
-                  // });
-                },
-                child: const TransferResultUserItem(
-                  // user: user,
-                  // isSelected: user.id == selectedUser?.id,
-                  isSelected: true,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // setState(() {
-                  //   selectedUser = user;
-                  // });
-                },
-                child: const TransferResultUserItem(
-                  // user: user,
-                  // isSelected: user.id == selectedUser?.id,
-                  isSelected: true,
-                ),
-              ),
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserSuccess) {
+                  return Wrap(
+                    spacing: 17,
+                    alignment: WrapAlignment.spaceAround,
+                    runSpacing: 17,
+                    children: state.users
+                        .map(
+                          (user) => GestureDetector(
+                            onTap: () {
+                              // setState(() {
+                              //   selectedUser = user;
+                              // });
+                            },
+                            child: const TransferResultUserItem(
+                              // user: user,
+                              // isSelected: user.id == selectedUser?.id,
+                              isSelected: true,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           )
         ],
       ),
