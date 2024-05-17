@@ -192,8 +192,8 @@ class _TransferContentState extends State<TransferContent> {
                               //   selectedUser = user;
                               // });
                             },
-                            child: const TransferResultUserItem(
-                              // user: user,
+                            child: TransferResultUserItem(
+                              user: user,
                               // isSelected: user.id == selectedUser?.id,
                               isSelected: true,
                             ),

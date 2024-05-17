@@ -3,12 +3,12 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class TransferResultUserItem extends StatelessWidget {
-  // final UserModel user;
+  final UserModel user;
   final bool isSelected;
 
   const TransferResultUserItem({
     super.key,
-    // required this.user,
+    required this.user,
     this.isSelected = false,
   });
 
@@ -34,43 +34,43 @@ class TransferResultUserItem extends StatelessWidget {
           Container(
             width: 70,
             height: 70,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(image: AssetImage('assets/img_profile.png')
-                  // user.profilePicture == null || user.profilePicture!.isEmpty
-                  //     ? const AssetImage('assets/img_profile.png')
-                  //     : NetworkImage(
-                  //         user.profilePicture!,
-                  //       ) as ImageProvider,
-                  ),
+              image: DecorationImage(
+                image:
+                    user.profilePicture == null || user.profilePicture!.isEmpty
+                        ? const AssetImage('assets/img_profile.png')
+                        : NetworkImage(
+                            user.profilePicture!,
+                          ) as ImageProvider,
+              ),
             ),
-            // child: user.verified == 1
-            //     ? Align(
-            //         alignment: Alignment.topRight,
-            //         child: Container(
-            //           width: 16,
-            //           height: 16,
-            //           decoration: BoxDecoration(
-            //             shape: BoxShape.circle,
-            //             color: kWhiteColor,
-            //           ),
-            //           child: Center(
-            //             child: Icon(
-            //               Icons.check_circle,
-            //               color: kGreenColor,
-            //               size: 14,
-            //             ),
-            //           ),
-            //         ),
-            //       )
-            //     : null,
+            child: user.verified == 1
+                ? Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: kWhiteColor,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.check_circle,
+                          color: kGreenColor,
+                          size: 14,
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
           ),
           const SizedBox(
             height: 13,
           ),
           Text(
-            'Wesley Santana',
-            // user.name.toString(),
+            user.name.toString(),
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: medium,
@@ -81,8 +81,7 @@ class TransferResultUserItem extends StatelessWidget {
             height: 2,
           ),
           Text(
-            '@wesleySantana',
-            // '@${user.username}',
+            '@${user.username}',
             style: greyTextStyle.copyWith(
               fontSize: 12,
             ),
