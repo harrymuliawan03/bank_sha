@@ -7,10 +7,10 @@ sealed class TransferEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TransferGetUserByUsername extends TransferEvent {
-  final String username;
-  const TransferGetUserByUsername(this.username);
+class TransferPost extends TransferEvent {
+  final TransferRequestModel data;
+  const TransferPost(this.data);
 
   @override
-  List<Object> get props => [username];
+  List<Object> get props => [data];
 }

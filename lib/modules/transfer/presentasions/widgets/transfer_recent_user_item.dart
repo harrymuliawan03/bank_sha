@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class TransferRecentUserItem extends StatelessWidget {
   final UserModel user;
+  final bool isSelected;
 
   const TransferRecentUserItem({
     super.key,
     required this.user,
+    this.isSelected = false,
   });
 
   @override
@@ -19,7 +21,7 @@ class TransferRecentUserItem extends StatelessWidget {
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: kWhiteColor,
+        color: isSelected ? kBlueColor : kWhiteColor,
       ),
       child: Row(
         children: [

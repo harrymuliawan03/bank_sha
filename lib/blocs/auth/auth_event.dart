@@ -61,4 +61,12 @@ class AuthUpdateBalance extends AuthEvent {
   List<Object> get props => [amount];
 }
 
+class AuthDecreaseBalance extends AuthEvent {
+  final int amount;
+  const AuthDecreaseBalance(this.amount);
+
+  @override
+  List<Object> get props => [amount];
+}
+
 class AuthLogout extends AuthEvent {}

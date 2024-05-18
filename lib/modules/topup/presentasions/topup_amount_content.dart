@@ -146,6 +146,7 @@ class _TopupAmountContentState extends State<TopupAmountContent> {
                   Wrap(
                     spacing: 40,
                     runSpacing: 40,
+                    alignment: WrapAlignment.center,
                     children: [
                       CustomInputButton(
                         title: '1',
@@ -246,21 +247,23 @@ class _TopupAmountContentState extends State<TopupAmountContent> {
                       if (await GoRouter.of(context)
                               .pushNamed(RouteNames.checkPin) ==
                           true) {
-                        final authState = context.read<AuthBloc>().state;
-                        String pin = '';
-                        if (authState is AuthSuccess) {
-                          pin = authState.user.pin!;
-                        }
+                        if (context.mounted) {
+                          final authState = context.read<AuthBloc>().state;
+                          String pin = '';
+                          if (authState is AuthSuccess) {
+                            pin = authState.user.pin!;
+                          }
 
-                        context.read<TopupBloc>().add(
-                              TopupPost(
-                                widget.data.copyWith(
-                                  pin: pin,
-                                  amount:
-                                      amountController.text.replaceAll(".", ''),
+                          context.read<TopupBloc>().add(
+                                TopupPost(
+                                  widget.data.copyWith(
+                                    pin: pin,
+                                    amount: amountController.text
+                                        .replaceAll(".", ''),
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                        }
                       }
                     },
                   ),

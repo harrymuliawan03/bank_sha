@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:bank_sha/blocs/user/user_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/models/user_model.dart';
+import 'package:bank_sha/modules/transfer/models/transfer_request_model.dart';
 import 'package:bank_sha/modules/transfer/presentasions/widgets/transfer_recent_user_item.dart';
 import 'package:bank_sha/modules/transfer/presentasions/widgets/transfer_result_user_item.dart';
 import 'package:bank_sha/shared/theme.dart';
@@ -20,7 +23,9 @@ class TransferContent extends StatefulWidget {
 
 class _TransferContentState extends State<TransferContent> {
   final usernameController = TextEditingController(text: '');
+  bool isSearch = false;
   UserModel? selectedUser;
+  Timer? _debounce;
 
   late UserBloc userBloc;
 
@@ -38,24 +43,22 @@ class _TransferContentState extends State<TransferContent> {
           'Transfer',
         ),
       ),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.all(24),
-        child: CustomFilledButton(
-          title: 'Continue',
-          onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => TransferAmountPage(
-            //       data: TransferFormModel(
-            //         sendTo: selectedUser?.username,
-            //       ),
-            //     ),
-            //   ),
-            // );
-          },
-        ),
-      ),
+      floatingActionButton: selectedUser != null
+          ? Container(
+              margin: const EdgeInsets.all(24),
+              child: CustomFilledButton(
+                title: 'Continue',
+                onPressed: () {
+                  context.goNamed(
+                    RouteNames.transferAmount,
+                    extra: TransferRequestModel(
+                      sendTo: selectedUser?.username,
+                    ),
+                  );
+                },
+              ),
+            )
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView(
         padding: const EdgeInsets.symmetric(
@@ -75,23 +78,36 @@ class _TransferContentState extends State<TransferContent> {
           const SizedBox(
             height: 14,
           ),
-          CustomFormField(
-            title: 'by username',
-            isShowTitle: false,
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'by username',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+              contentPadding: const EdgeInsets.all(12),
+            ),
             controller: usernameController,
-            onFieldSubmitted: (value) {
-              if (value.isNotEmpty) {
-                userBloc.add(UserGetUserByUsername(usernameController.text));
-              } else {
-                userBloc.add(UserGetRecentUsers());
-              }
-              setState(() {});
+            onChanged: (value) {
+              if (_debounce?.isActive ?? false) _debounce?.cancel();
+              _debounce = Timer(const Duration(milliseconds: 1000), () {
+                if (value.isNotEmpty) {
+                  userBloc.add(UserGetUserByUsername(usernameController.text));
+                  setState(() {
+                    isSearch = true;
+                  });
+                } else {
+                  userBloc.add(UserGetRecentUsers());
+                  setState(() {
+                    isSearch = false;
+                  });
+                }
+              });
             },
           ),
           // buildRecentUsers(),
-          usernameController.text.isEmpty
-              ? buildRecentUsers()
-              : buildResult(), // if (selectedUser != null)
+          isSearch
+              ? buildResult() // if (selectedUser != null)
+              : buildRecentUsers(),
           const SizedBox(
             height: 50,
           ),
@@ -127,10 +143,13 @@ class _TransferContentState extends State<TransferContent> {
                         .map(
                           (user) => GestureDetector(
                             onTap: () {
-                              context.goNamed(RouteNames.transferAmount);
+                              setState(() {
+                                selectedUser = user;
+                              });
                             },
                             child: TransferRecentUserItem(
                               user: user,
+                              isSelected: user.id == selectedUser?.id,
                             ),
                           ),
                         )
@@ -188,21 +207,20 @@ class _TransferContentState extends State<TransferContent> {
                         .map(
                           (user) => GestureDetector(
                             onTap: () {
-                              // setState(() {
-                              //   selectedUser = user;
-                              // });
+                              setState(() {
+                                selectedUser = user;
+                              });
                             },
                             child: TransferResultUserItem(
                               user: user,
-                              // isSelected: user.id == selectedUser?.id,
-                              isSelected: true,
+                              isSelected: user.id == selectedUser?.id,
                             ),
                           ),
                         )
                         .toList(),
                   );
                 }
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               },
