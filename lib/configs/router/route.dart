@@ -1,5 +1,6 @@
 import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/modules/auth/models/sign_up_form_model.dart';
+import 'package:bank_sha/modules/data_provider/models/data_provider_model.dart';
 import 'package:bank_sha/modules/topup/models/topup_request_model.dart';
 import 'package:bank_sha/modules/transfer/models/transfer_request_model.dart';
 import 'package:bank_sha/pages/data_package/data_package_page.dart';
@@ -203,10 +204,11 @@ final GoRouter router = GoRouter(
           routes: [
             GoRoute(
               name: RouteNames.dataPackage,
-              path: 'data-package/:id',
+              path: 'data-package',
               builder: (context, state) {
+                final data = state.extra! as DataProviderModel;
                 return DataPackagePage(
-                  id: state.pathParameters['id'] ?? '',
+                  dataProvider: data,
                 );
               },
             ),

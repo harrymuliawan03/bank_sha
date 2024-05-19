@@ -1,15 +1,16 @@
+import 'package:bank_sha/modules/data_provider/models/data_provider_model.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class DataProviderItem extends StatelessWidget {
-  // final OperatorCardModel operator;
+  final DataProviderModel operator;
   final bool isSelected;
 
   const DataProviderItem({
-    Key? key,
-    // required this.operator,
+    super.key,
+    required this.operator,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +32,19 @@ class DataProviderItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            'assets/img_provider_indosat.png',
-            height: 30,
-          ),
-          // Image.network(
-          //   operator.thumbnail!,
+          // Image.asset(
+          //   'assets/img_provider_indosat.png',
           //   height: 30,
           // ),
+          Image.network(
+            operator.thumbnail!,
+            height: 30,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'Indosat',
-                // operator.name!,
+                operator.name!,
                 style: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
@@ -54,8 +54,7 @@ class DataProviderItem extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                'Available',
-                // operator.status!,
+                operator.status!,
                 style: greyTextStyle.copyWith(
                   fontSize: 12,
                 ),

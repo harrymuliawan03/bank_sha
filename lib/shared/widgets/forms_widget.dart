@@ -7,6 +7,7 @@ class CustomFormField extends StatelessWidget {
   final TextEditingController? controller;
   final bool isShowTitle;
   final Function(String)? onFieldSubmitted;
+  final void Function(String)? onChanged;
   final String? Function(String)? validator;
   final int? maxLength;
   final TextInputType? textInputType;
@@ -19,6 +20,7 @@ class CustomFormField extends StatelessWidget {
       this.validator,
       this.isShowTitle = true,
       this.onFieldSubmitted,
+      this.onChanged,
       this.maxLength,
       this.textInputType});
 
@@ -59,6 +61,7 @@ class CustomFormField extends StatelessWidget {
             contentPadding: const EdgeInsets.all(12),
           ),
           onFieldSubmitted: onFieldSubmitted,
+          onChanged: onChanged,
         ),
       ],
     );

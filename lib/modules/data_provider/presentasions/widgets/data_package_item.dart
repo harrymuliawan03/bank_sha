@@ -1,14 +1,15 @@
+import 'package:bank_sha/modules/data_provider/models/data_plan_model.dart';
 import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
-class PackageItem extends StatelessWidget {
-  // final DataPlanModel dataPlan;
+class DataPackageItem extends StatelessWidget {
+  final DataPlanModel dataPlan;
   final bool isSelected;
 
-  const PackageItem({
+  const DataPackageItem({
     super.key,
-    // required this.dataPlan,
+    required this.dataPlan,
     this.isSelected = false,
   });
 
@@ -33,8 +34,7 @@ class PackageItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '10 GB',
-            // dataPlan.name!,
+            dataPlan.name!,
             style: blackTextStyle.copyWith(
               fontSize: 32,
               fontWeight: medium,
@@ -44,8 +44,7 @@ class PackageItem extends StatelessWidget {
             height: 2,
           ),
           Text(
-            formatCurrency(200000),
-            // formatCurrency(dataPlan.price!),
+            formatCurrency(dataPlan.price!),
             style: greyTextStyle.copyWith(
               fontSize: 12,
             ),
