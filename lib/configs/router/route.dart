@@ -13,6 +13,7 @@ import 'package:bank_sha/pages/profile/profile_page.dart';
 import 'package:bank_sha/pages/profile_edit/profile_edit_page.dart';
 import 'package:bank_sha/pages/profile_edit_pin/profile_edit_pin_page.dart';
 import 'package:bank_sha/pages/profile_edit_success/profile_edit_success_page.dart';
+import 'package:bank_sha/pages/scan/scan_page.dart';
 import 'package:bank_sha/pages/sign_in/sign_in_page.dart';
 import 'package:bank_sha/pages/sign_up/sign_up_page.dart';
 import 'package:bank_sha/pages/sign_up_set_identity/sign_up_set_identity.dart';
@@ -104,6 +105,15 @@ final GoRouter router = GoRouter(
           path: 'check-pin',
           builder: (BuildContext context, GoRouterState state) {
             return const PinPage();
+          },
+        ),
+
+        // scan
+        GoRoute(
+          name: RouteNames.scan,
+          path: 'scan',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ScanPage();
           },
         ),
 

@@ -3,11 +3,11 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeUserItem extends StatelessWidget {
-  final UserModel? user;
+  final UserModel user;
 
   const HomeUserItem({
     super.key,
-    this.user,
+    required this.user,
   });
 
   @override
@@ -31,24 +31,21 @@ class HomeUserItem extends StatelessWidget {
             margin: const EdgeInsets.only(
               bottom: 13,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    'assets/img_profile.png',
-                  )
-                  // user.profilePicture == null || user.profilePicture!.isEmpty
-                  //     ? const AssetImage(
-                  //         'assets/img_profile.png',
-                  //       )
-                  //     : NetworkImage(user.profilePicture!) as ImageProvider,
-                  ),
+                fit: BoxFit.cover,
+                image:
+                    user.profilePicture == null || user.profilePicture!.isEmpty
+                        ? const AssetImage(
+                            'assets/img_profile.png',
+                          )
+                        : NetworkImage(user.profilePicture!) as ImageProvider,
+              ),
             ),
           ),
           Text(
-            '@WesleySantana',
-            // '@${user.username}',
+            '@${user.username}',
             style: blackTextStyle.copyWith(
               fontSize: 12,
               fontWeight: medium,

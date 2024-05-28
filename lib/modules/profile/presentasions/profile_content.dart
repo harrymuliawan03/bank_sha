@@ -130,21 +130,21 @@ class ProfileContent extends StatelessWidget {
                               }
                             },
                           ),
-                          ProfileMenuItem(
-                            iconUrl: 'assets/ic_wallet.png',
-                            title: 'Wallet Settings',
-                            onTap: () {},
-                          ),
-                          ProfileMenuItem(
-                            iconUrl: 'assets/ic_reward.png',
-                            title: 'My Rewards',
-                            onTap: () {},
-                          ),
-                          ProfileMenuItem(
-                            iconUrl: 'assets/ic_help.png',
-                            title: 'Help Center',
-                            onTap: () {},
-                          ),
+                          // ProfileMenuItem(
+                          //   iconUrl: 'assets/ic_wallet.png',
+                          //   title: 'Wallet Settings',
+                          //   onTap: () {},
+                          // ),
+                          // ProfileMenuItem(
+                          //   iconUrl: 'assets/ic_reward.png',
+                          //   title: 'My Rewards',
+                          //   onTap: () {},
+                          // ),
+                          // ProfileMenuItem(
+                          //   iconUrl: 'assets/ic_help.png',
+                          //   title: 'Help Center',
+                          //   onTap: () {},
+                          // ),
                           ProfileMenuItem(
                             iconUrl: 'assets/ic_logout.png',
                             title: 'Log Out',

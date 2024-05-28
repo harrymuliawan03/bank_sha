@@ -4,23 +4,27 @@ import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeLatestTransactionItem extends StatelessWidget {
-  final TransactionModel? transaction;
+  final TransactionModel transaction;
 
   const HomeLatestTransactionItem({
     super.key,
-    this.transaction,
+    required this.transaction,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(transaction.transactionType!.thumbnail!);
     return Container(
       margin: const EdgeInsets.only(
         bottom: 18,
       ),
       child: Row(
         children: [
-          Image.asset(
-            'assets/ic_transaction_cat1.png',
+          Image.network(
+            transaction.transactionType!.thumbnail!,
+            errorBuilder: (context, error, stackTrace) {
+              return Text(transaction.transactionType!.name!);
+            },
             width: 48,
           ),
           const SizedBox(
@@ -31,7 +35,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Top Up',
+                  transaction.transactionType!.name!,
                   style: blackTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: medium,
@@ -42,7 +46,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
                 ),
                 Text(
                   // dateToMonthDate(DateTime.parse(transaction.createdAt!)),
-                  'Sep 2',
+                  dateToMonthDate(DateTime.parse(transaction.createdAt!)),
                   style: greyTextStyle.copyWith(
                     fontSize: 12,
                   ),
@@ -51,13 +55,14 @@ class HomeLatestTransactionItem extends StatelessWidget {
             ),
           ),
           Text(
-            // (transaction.transactionType?.action == 'cr' ? '+ ' : '- ') +
-            //     formatTransactionCurrency(transaction.amount!),
-            ('+') + formatTransactionCurrency(200000),
+            (transaction.transactionType?.action == 'cr' ? '+ ' : '- ') +
+                formatTransactionCurrency(transaction.amount!),
             style: blackTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: medium,
-            ),
+                fontSize: 16,
+                fontWeight: bold,
+                color: transaction.transactionType?.action == 'cr'
+                    ? kGreenColor
+                    : kRedColor),
           ),
         ],
       ),

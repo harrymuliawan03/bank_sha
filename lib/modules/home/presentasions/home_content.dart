@@ -1,5 +1,9 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
+import 'package:bank_sha/blocs/tips/tips_bloc.dart';
+import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
+import 'package:bank_sha/blocs/user/user_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
+import 'package:bank_sha/models/user_model.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_popup_more.dart';
 import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
@@ -11,99 +15,119 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
 
   @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  UserModel user = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      user = authState.user;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        color: kWhiteColor,
-        shape: const CircularNotchedRectangle(),
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 6,
-        elevation: 0,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: kWhiteColor,
-          elevation: 0,
-          selectedItemColor: kBlueColor,
-          unselectedItemColor: kBlackColor,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          selectedLabelStyle: blueTextStyle.copyWith(
-            fontSize: 10,
-            fontWeight: medium,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          surfaceTintColor: Colors.white,
+          centerTitle: false,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Howdy,',
+                style: greyTextStyle.copyWith(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              Text(
+                user.name!,
+                style: blackTextStyle.copyWith(
+                  fontSize: 20,
+                  fontWeight: semiBold,
+                ),
+              ),
+            ],
           ),
-          unselectedLabelStyle: blackTextStyle.copyWith(
-            fontSize: 10,
-            fontWeight: medium,
-          ),
-          items: [
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_overview.png',
-                width: 20,
-                color: kBlueColor,
+          floating: true,
+          // pinned: true,
+          expandedHeight: 70,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                context.goNamed(RouteNames.profile);
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: (user.profilePicture == null ||
+                            user.profilePicture == '')
+                        ? const AssetImage(
+                            'assets/img_profile.png',
+                          )
+                        : NetworkImage(user.profilePicture!) as ImageProvider,
+                  ),
+                ),
               ),
-              label: 'Overview',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_history.png',
-                width: 20,
-              ),
-              label: 'History',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_statistic.png',
-                width: 20,
-              ),
-              label: 'Statistic',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_reward.png',
-                width: 20,
-              ),
-              label: 'Reward',
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: kPurpleColor,
-        shape: const CircleBorder(),
-        child: Image.asset(
-          'assets/ic_plus_circle.png',
-          width: 24,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-        ),
-        children: [
-          buildProfile(context),
-          buildWalletCard(),
-          buildLevel(),
-          buildServices(context),
-          buildLatestTransactions(),
-          buildSendAgain(),
-          buildFriendlyTips(),
-        ],
-      ),
+        SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.all(defaultMargin),
+            child: Column(
+              children: [
+                // buildProfile(context),
+                buildWalletCard(),
+                buildLevel(),
+                buildServices(context),
+                buildLatestTransactions(),
+                buildSendAgain(),
+                buildFriendlyTips(),
+              ],
+            ),
+          ),
+        )
+      ],
     );
+    // ListView(
+    //   padding: const EdgeInsets.symmetric(
+    //     horizontal: 24,
+    //   ),
+
+    //   children: [
+    //     buildProfile(context),
+    //     buildWalletCard(),
+    //     buildLevel(),
+    //     buildServices(context),
+    //     buildLatestTransactions(),
+    //     buildSendAgain(),
+    //     buildFriendlyTips(),
+    //   ],
+    // );
   }
 
   Widget buildProfile(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
-          print('haai ${state.user.profilePicture == null}');
           return Container(
             margin: const EdgeInsets.only(
               top: 40,
@@ -189,8 +213,8 @@ class HomeContent extends StatelessWidget {
           width: double.infinity,
           height: 220,
           margin: const EdgeInsets.only(
-            top: 30,
-          ),
+              // top: 30,
+              ),
           padding: const EdgeInsets.all(30),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(28),
@@ -377,9 +401,34 @@ class HomeContent extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: kWhiteColor,
             ),
-            child: const Column(children: [
-              HomeLatestTransactionItem(),
-            ]),
+            child: BlocProvider(
+              create: (context) => TransactionBloc()..add(TransactionsGet()),
+              child: BlocBuilder<TransactionBloc, TransactionState>(
+                builder: (context, state) {
+                  if (state is TransactionSuccess) {
+                    if (state.transactions.isNotEmpty) {
+                      return Column(
+                          children: state.transactions
+                              .map((item) => HomeLatestTransactionItem(
+                                    transaction: item,
+                                  ))
+                              .toList());
+                    }
+                    return Center(
+                      child: Text(
+                        'There is no transaction',
+                        style: blackTextStyle.copyWith(
+                          fontWeight: medium,
+                        ),
+                      ),
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
@@ -404,27 +453,51 @@ class HomeContent extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: const HomeUserItem(),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const HomeUserItem(),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const HomeUserItem(),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const HomeUserItem(),
-                ),
-              ],
+          BlocProvider(
+            create: (context) => UserBloc()..add(UserGetRecentUsers()),
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserSuccess) {
+                  if (state.users.isNotEmpty) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: state.users
+                            .map(
+                              (item) => GestureDetector(
+                                onTap: () {},
+                                child: HomeUserItem(
+                                  user: item,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    );
+                  }
+                  return Container(
+                    padding: const EdgeInsets.all(22),
+                    margin: const EdgeInsets.only(
+                      top: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: kWhiteColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'There is no transaction',
+                        style: blackTextStyle.copyWith(
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           )
         ],
@@ -451,23 +524,33 @@ class HomeContent extends StatelessWidget {
           const SizedBox(
             height: 14,
           ),
-          Wrap(
-            spacing: 17,
-            runSpacing: 18,
-            children: [
-              HomeTipsItem(
-                tips: null,
-                url: Uri.parse('https://pub.dev/'),
-              ),
-              HomeTipsItem(
-                tips: null,
-                url: Uri.parse('https://pub.dev/'),
-              ),
-              HomeTipsItem(
-                tips: null,
-                url: Uri.parse('https://pub.dev/'),
-              ),
-            ],
+          BlocProvider(
+            create: (context) => TipsBloc()..add(TipsGet()),
+            child: BlocBuilder<TipsBloc, TipsState>(
+              builder: (context, state) {
+                if (state is TipsSuccess) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      spacing: 17,
+                      runSpacing: 18,
+                      children: state.tips
+                          .map(
+                            (item) => HomeTipsItem(
+                              tips: item,
+                              url: Uri.parse(item.url!),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
         ],
       ),

@@ -31,6 +31,9 @@ class RouteNames {
   static const transferAmount = 'transfer-amount';
   static const transferSuccess = 'transfer-success';
 
+  // scan
+  static const scan = 'scan';
+
   // data
   static const dataProvider = 'data-provider';
   static const dataPackage = 'data-package';
