@@ -308,11 +308,18 @@ class _HomeContentState extends State<HomeContent> {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(55),
-            child: LinearProgressIndicator(
-              value: 0.55,
-              minHeight: 5,
-              valueColor: AlwaysStoppedAnimation(kGreenColor),
-              backgroundColor: kLightBackgroundColor,
+            child: TweenAnimationBuilder<double>(
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.easeInOut,
+              tween: Tween<double>(
+                begin: 0,
+                end: 0.8,
+              ),
+              builder: (context, value, _) => LinearProgressIndicator(
+                value: value,
+                backgroundColor: kLightBackgroundColor,
+                valueColor: AlwaysStoppedAnimation(kGreenColor),
+              ),
             ),
           ),
         ],
