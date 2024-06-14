@@ -41,23 +41,29 @@ class _DataPackageContentState extends State<DataPackageContent> {
         create: (context) => DataPlanBloc(),
         child: BlocConsumer<DataPlanBloc, DataPlanState>(
           listener: (context, state) {
-            if (state is DataPlanSuccess) {
-              if (context.mounted) {
-                context.read<AuthBloc>().add(
-                      AuthUpdateBalance(
-                        selectedDataPlan!.price! * -1,
-                      ),
-                    );
+            state.when(
+                initial: () {},
+                loading: () {},
+                success: () {
+                  print('success');
+                  context.read<AuthBloc>().add(
+                        AuthUpdateBalance(
+                          selectedDataPlan!.price! * -1,
+                        ),
+                      );
 
-                context.goNamed(RouteNames.dataSuccess);
-              }
-            }
-
-            if (state is DataPlanFailed) {
-              showCustomSnackbar(context, state.e);
-            }
+                  context.goNamed(RouteNames.dataSuccess);
+                },
+                failed: (e) {
+                  showCustomSnackbar(context, e);
+                });
           },
           builder: (context, state) {
+            state.whenOrNull(
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
             return ListView(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
@@ -133,15 +139,15 @@ class _DataPackageContentState extends State<DataPackageContent> {
                             pin = authState.user.pin!;
                           }
 
-                          context.read<DataPlanBloc>().add(
-                                DataPlanPost(
-                                  DataPlanRequestModel(
-                                    dataPlanId: selectedDataPlan!.id.toString(),
-                                    phoneNumber: phoneController.text,
-                                    pin: pin,
-                                  ),
+                          context
+                              .read<DataPlanBloc>()
+                              .add(DataPlanEvent.buyDataPlan(
+                                data: DataPlanRequestModel(
+                                  dataPlanId: selectedDataPlan!.id.toString(),
+                                  phoneNumber: phoneController.text,
+                                  pin: pin,
                                 ),
-                              );
+                              ));
                         }
                       }
                     },
