@@ -1,3 +1,1 @@
-const String baseUrl = 'https://bwabank.my.id/api';
-// const String baseUrl = 'https://api.otonometer.neracaruang.com/api';
-
+const String baseUrl = 'http://127.0.0.1:8000/api';
