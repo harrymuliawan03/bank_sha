@@ -39,7 +39,7 @@ class TransferSuccessPage extends StatelessWidget {
               width: 183,
               title: 'Back to Home',
               onPressed: () {
-                context.goNamed(RouteNames.home);
+                context.pushReplacementNamed(RouteNames.home);
               },
             ),
           ],

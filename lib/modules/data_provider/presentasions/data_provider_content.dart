@@ -115,31 +115,36 @@ class _DataProviderContentState extends State<DataProviderContent> {
             height: 14,
           ),
           BlocProvider(
-            create: (context) => DataProviderBloc()..add(DataProviderGet()),
+            create: (context) => DataProviderBloc()
+              ..add(const DataProviderEvent.getDataProvider()),
             child: BlocBuilder<DataProviderBloc, DataProviderState>(
               builder: (context, state) {
-                if (state is DataProviderSuccess) {
-                  return Column(
-                    children: state.data
-                        .map(
-                          (operator) => GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedOperator = operator;
-                              });
-                            },
-                            child: DataProviderItem(
-                              operator: operator,
-                              isSelected: operator.id == selectedOperator?.id,
+                return state.maybeWhen(
+                  loading: () {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  success: (data) {
+                    return Column(
+                      children: data
+                          .map(
+                            (operator) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedOperator = operator;
+                                });
+                              },
+                              child: DataProviderItem(
+                                operator: operator,
+                                isSelected: operator.id == selectedOperator?.id,
+                              ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                  );
-                }
-
-                return const Center(
-                  child: CircularProgressIndicator(),
+                          )
+                          .toList(),
+                    );
+                  },
+                  orElse: () => Container(),
                 );
               },
             ),

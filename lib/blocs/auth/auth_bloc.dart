@@ -1,3 +1,4 @@
+import 'package:bank_sha/blocs/data_plan/data_plan_bloc.dart';
 import 'package:bank_sha/modules/auth/models/check_email_form_model.dart';
 import 'package:bank_sha/modules/auth/models/sign_in_form_model.dart';
 import 'package:bank_sha/modules/auth/models/sign_up_form_model.dart';
@@ -15,6 +16,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
+    final DataPlanBloc dataPlanBloc = DataPlanBloc();
+
     on<AuthEvent>(
       (event, emit) async {
         if (event is AuthCheckEmailExist) {

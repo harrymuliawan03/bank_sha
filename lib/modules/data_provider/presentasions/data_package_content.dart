@@ -41,22 +41,20 @@ class _DataPackageContentState extends State<DataPackageContent> {
         create: (context) => DataPlanBloc(),
         child: BlocConsumer<DataPlanBloc, DataPlanState>(
           listener: (context, state) {
-            state.when(
-                initial: () {},
-                loading: () {},
-                success: () {
-                  print('success');
-                  context.read<AuthBloc>().add(
-                        AuthUpdateBalance(
-                          selectedDataPlan!.price! * -1,
-                        ),
-                      );
+            state.whenOrNull(
+              success: () {
+                context.read<AuthBloc>().add(
+                      AuthUpdateBalance(
+                        selectedDataPlan!.price! * -1,
+                      ),
+                    );
 
-                  context.goNamed(RouteNames.dataSuccess);
-                },
-                failed: (e) {
-                  showCustomSnackbar(context, e);
-                });
+                context.goNamed(RouteNames.dataSuccess);
+              },
+              failed: (e) {
+                showCustomSnackbar(context, e);
+              },
+            );
           },
           builder: (context, state) {
             state.whenOrNull(

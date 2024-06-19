@@ -408,13 +408,15 @@ class _HomeContentState extends State<HomeContent> {
               borderRadius: BorderRadius.circular(20),
               color: kWhiteColor,
             ),
+            height: 400,
             child: BlocProvider(
               create: (context) => TransactionBloc()..add(TransactionsGet()),
               child: BlocBuilder<TransactionBloc, TransactionState>(
                 builder: (context, state) {
                   if (state is TransactionSuccess) {
                     if (state.transactions.isNotEmpty) {
-                      return Column(
+                      return ListView(
+                          padding: const EdgeInsets.all(0),
                           children: state.transactions
                               .map((item) => HomeLatestTransactionItem(
                                     transaction: item,

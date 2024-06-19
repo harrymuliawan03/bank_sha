@@ -21,15 +21,18 @@ class HistoryContent extends StatelessWidget {
         'group': '22 Mei 2024'
       },
     ];
-    return BlocProvider(
-      create: (context) => TransactionBloc()..add(TransactionsGet()),
-      child: Container(
-        margin: EdgeInsets.all(defaultMargin),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 0),
+      padding: const EdgeInsets.all(0),
+      child: BlocProvider(
+        create: (context) => TransactionBloc()..add(TransactionsGet()),
         child: BlocBuilder<TransactionBloc, TransactionState>(
           builder: (context, state) {
             if (state is TransactionSuccess) {
               if (state.transactions.isNotEmpty) {
-                return Column(
+                return ListView(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                     children: state.transactions
                         .map((item) => HomeLatestTransactionItem(
                               transaction: item,

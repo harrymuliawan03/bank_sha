@@ -1,10 +1,6 @@
 part of 'data_provider_bloc.dart';
 
-sealed class DataProviderEvent extends Equatable {
-  const DataProviderEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+class DataProviderEvent with _$DataProviderEvent {
+  const factory DataProviderEvent.getDataProvider() = _GetDataProvider;
 }
-
-class DataProviderGet extends DataProviderEvent {}
