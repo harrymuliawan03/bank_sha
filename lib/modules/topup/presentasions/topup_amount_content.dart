@@ -28,6 +28,13 @@ class _TopupAmountContentState extends State<TopupAmountContent> {
       TextEditingController(text: '0');
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    amountController.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     amountController.addListener(() {

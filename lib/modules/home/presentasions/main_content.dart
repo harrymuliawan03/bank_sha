@@ -6,6 +6,7 @@ import 'package:bank_sha/pages/reward/reward_page.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MainContent extends StatefulWidget {
   const MainContent({super.key});
@@ -95,8 +96,16 @@ class _MainContentState extends State<MainContent> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goNamed(RouteNames.scan);
+        onPressed: () async {
+          await Permission.camera.request().then(
+            (value) {
+              if (value.isGranted) {
+                context.goNamed(RouteNames.scan);
+              } else {
+                _showSettingsDialog(context);
+              }
+            },
+          );
         },
         backgroundColor: kPurpleColor,
         shape: const CircleBorder(),
@@ -134,4 +143,28 @@ class _MainContentState extends State<MainContent> {
         return const RewardPage(); // Default case
     }
   }
+}
+
+void _showSettingsDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Camera Permission'),
+      content: Text(
+          'Camera permission is permanently denied. Please go to settings to enable it.'),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            await openAppSettings();
+          },
+          child: Text('Open Settings'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('Cancel'),
+        ),
+      ],
+    ),
+  );
 }

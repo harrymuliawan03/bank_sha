@@ -74,6 +74,7 @@ class _HomeContentState extends State<HomeContent> {
               child: Container(
                 width: 60,
                 height: 60,
+                margin: const EdgeInsets.only(right: 20),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(

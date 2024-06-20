@@ -105,7 +105,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       onSignIn: () {
                         context.goNamed(RouteNames.signIn);
                       },
-                      onGetStarted: () {},
+                      onGetStarted: () {
+                        context.goNamed(RouteNames.signUp);
+                      },
                     )
                   else
                     Row(

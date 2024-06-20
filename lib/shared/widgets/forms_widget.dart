@@ -55,6 +55,7 @@ class CustomFormField extends StatelessWidget {
           },
           decoration: InputDecoration(
             hintText: !isShowTitle ? title : null,
+            prefixText: '+62',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
             ),

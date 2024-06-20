@@ -25,6 +25,14 @@ class TransferAmountContent extends StatefulWidget {
 class _TransferAmountContentState extends State<TransferAmountContent> {
   final TextEditingController amountController =
       TextEditingController(text: '0');
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    amountController.dispose();
+  }
+
   @override
   void initState() {
     super.initState();

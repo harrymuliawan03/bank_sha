@@ -49,6 +49,13 @@ class _PinPageState extends State<PinPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    pinController.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     final authState = context.read<AuthBloc>().state;

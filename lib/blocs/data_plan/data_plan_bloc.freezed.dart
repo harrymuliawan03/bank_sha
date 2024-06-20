@@ -62,6 +62,8 @@ abstract class $DataPlanEventCopyWith<$Res> {
       _$DataPlanEventCopyWithImpl<$Res, DataPlanEvent>;
   @useResult
   $Res call({DataPlanRequestModel data});
+
+  $DataPlanRequestModelCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -86,6 +88,14 @@ class _$DataPlanEventCopyWithImpl<$Res, $Val extends DataPlanEvent>
               as DataPlanRequestModel,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataPlanRequestModelCopyWith<$Res> get data {
+    return $DataPlanRequestModelCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -97,6 +107,9 @@ abstract class _$$BuyDataPlanImplCopyWith<$Res>
   @override
   @useResult
   $Res call({DataPlanRequestModel data});
+
+  @override
+  $DataPlanRequestModelCopyWith<$Res> get data;
 }
 
 /// @nodoc

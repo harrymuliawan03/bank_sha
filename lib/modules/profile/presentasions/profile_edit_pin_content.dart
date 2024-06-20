@@ -37,6 +37,14 @@ class _ProfileEditPinContentState extends State<ProfileEditPinContent> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    oldPinController.dispose();
+    newPinController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

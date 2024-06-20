@@ -1,34 +1,16 @@
-import 'package:meta/meta.dart';
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-String dataPlanRequestModelToJson(DataPlanRequestModel data) =>
-    json.encode(data.toJson());
+part 'data_plan_request_model.freezed.dart';
+part 'data_plan_request_model.g.dart';
 
-class DataPlanRequestModel {
-  final String? dataPlanId;
-  final String? phoneNumber;
-  final String? pin;
+@freezed
+class DataPlanRequestModel with _$DataPlanRequestModel {
+  const factory DataPlanRequestModel({
+    @JsonKey(name: 'data_plan_id') String? dataPlanId,
+    @JsonKey(name: 'phone_number') String? phoneNumber,
+    @JsonKey(name: 'pin') String? pin,
+  }) = _DataPlanRequestModel;
 
-  DataPlanRequestModel({
-    this.dataPlanId,
-    this.phoneNumber,
-    this.pin,
-  });
-
-  DataPlanRequestModel copyWith({
-    String? dataPlanId,
-    String? phoneNumber,
-    String? pin,
-  }) =>
-      DataPlanRequestModel(
-        dataPlanId: dataPlanId ?? this.dataPlanId,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        pin: pin ?? this.pin,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data_plan_id": dataPlanId,
-        "phone_number": phoneNumber,
-        "pin": pin,
-      };
+  factory DataPlanRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$DataPlanRequestModelFromJson(json);
 }

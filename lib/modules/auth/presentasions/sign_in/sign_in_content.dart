@@ -53,10 +53,10 @@ class SignInContent extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        'Sha',
+                        'Z-Wallet',
                         style: logoTextStyle.copyWith(
                           color: kBlackColor,
-                          fontSize: 45,
+                          fontSize: 30,
                           fontWeight: bold,
                         ),
                       ),

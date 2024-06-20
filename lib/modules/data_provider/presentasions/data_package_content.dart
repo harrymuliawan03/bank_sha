@@ -30,6 +30,13 @@ class _DataPackageContentState extends State<DataPackageContent> {
   DataPlanModel? selectedDataPlan;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    phoneController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +88,7 @@ class _DataPackageContentState extends State<DataPackageContent> {
                   height: 14,
                 ),
                 CustomFormField(
-                  title: '+62',
+                  title: '',
                   isShowTitle: false,
                   controller: phoneController,
                   onChanged: (val) => setState(() {}),
