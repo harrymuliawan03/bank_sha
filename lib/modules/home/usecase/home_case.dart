@@ -7,7 +7,7 @@ Future<ResponseUseCase<List<TransactionModel>>> getTransactionsCase() async {
   var res = await getTransactionsRepo<List<Map<String, dynamic>>>();
 
   if (res.success) {
-    List<TransactionModel> data = List<TransactionModel>.from(res.response!
+    List<TransactionModel> data = List.from(res.response!
         .map((paymentMethod) => TransactionModel.fromJson(paymentMethod)));
 
     return ResponseUseCase<List<TransactionModel>>(

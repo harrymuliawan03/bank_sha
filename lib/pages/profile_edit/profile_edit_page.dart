@@ -14,24 +14,6 @@ class ProfileEditPage extends StatefulWidget {
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
-  final usernameController = TextEditingController(text: '');
-  final nameController = TextEditingController(text: '');
-  final emailController = TextEditingController(text: '');
-  final passwordController = TextEditingController(text: '');
-
-  @override
-  void initState() {
-    super.initState();
-    final authState = context.read<AuthBloc>().state;
-
-    if (authState is AuthSuccess) {
-      usernameController.text = authState.user.email!;
-      nameController.text = authState.user.name!;
-      emailController.text = authState.user.email!;
-      passwordController.text = authState.user.password!;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return const ProfileEditContent();

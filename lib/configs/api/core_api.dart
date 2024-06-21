@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bank_sha/configs/api/api_models.dart';
 import 'package:bank_sha/configs/env.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,6 +46,14 @@ import 'package:http/http.dart' as http;
 //         success: false, data: null, status: false, message: error.toString());
 //   }
 // }
+
+final dio = Dio(
+  BaseOptions(
+    baseUrl: baseUrl,
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 Future<String> getToken() async {
   String token = '';
@@ -92,17 +101,22 @@ Future<HttpResponse> postDataWithToken(String url, dynamic body) async {
   try {
     String token = await getToken();
 
-    final response = await http.post(
-      Uri.parse('$baseUrl$url'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        // HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: token
+    final response = await dio.post(
+      url,
+      data: body?.toJson(),
+      options: Options(
+        headers: {
+          HttpHeaders.acceptHeader: 'application/json',
+          // HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token
+        },
+      ),
+      onSendProgress: (count, total) {
+        print('count: $count, total: $total');
       },
-      body: body?.toJson(),
     );
 
-    final data = json.decode(response.body);
+    final data = response.data;
 
     if (response.statusCode == 200) {
       return HttpResponse(
@@ -114,11 +128,11 @@ Future<HttpResponse> postDataWithToken(String url, dynamic body) async {
     }
 
     String message;
-    if (response.body.contains("errors")) {
-      Map<String, dynamic> errorResponse = jsonDecode(response.body);
+    if (response.data.contains("errors")) {
+      Map<String, dynamic> errorResponse = jsonDecode(response.data);
       message = errorResponse["errors"].values.first[0];
     } else {
-      message = jsonDecode(response.body)['message'];
+      message = jsonDecode(response.data)['message'];
     }
     return HttpResponse(
       success: false,
@@ -177,16 +191,14 @@ Future<HttpResponse<T>> getDataWithToken<T>(
     String token = await getToken();
 
     print(token);
-    final response = await http.get(
-      Uri.parse('$baseUrl$url'),
-      headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: token,
-      },
-    );
+    final response = await dio.get(url,
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.acceptHeader: 'application/json',
+          HttpHeaders.authorizationHeader: token,
+        }));
 
-    final data = json.decode(response.body);
+    final data = response.data;
 
     if (response.statusCode == 200) {
       return HttpResponse<T>(
@@ -198,11 +210,11 @@ Future<HttpResponse<T>> getDataWithToken<T>(
     }
 
     String message;
-    if (response.body.contains("errors")) {
-      Map<String, dynamic> errorResponse = jsonDecode(response.body);
+    if (response.data.contains("errors")) {
+      Map<String, dynamic> errorResponse = jsonDecode(response.data);
       message = errorResponse["errors"].values.first[0];
     } else {
-      message = jsonDecode(response.body)['message'];
+      message = jsonDecode(response.data)['message'];
     }
     return HttpResponse<T>(
       success: false,
