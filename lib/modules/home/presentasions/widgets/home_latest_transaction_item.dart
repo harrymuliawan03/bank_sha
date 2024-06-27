@@ -13,7 +13,6 @@ class HomeLatestTransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(transaction.transactionType!.thumbnail!);
     return Container(
       margin: const EdgeInsets.only(
         bottom: 18,

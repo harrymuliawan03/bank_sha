@@ -71,19 +71,22 @@ class _HomeContentState extends State<HomeContent> {
               onTap: () {
                 context.goNamed(RouteNames.profile);
               },
-              child: Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(right: 20),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: (user.profilePicture == null ||
-                            user.profilePicture == '')
-                        ? const AssetImage(
-                            'assets/img_profile.png',
-                          )
-                        : NetworkImage(user.profilePicture!) as ImageProvider,
+              child: Hero(
+                tag: "profile",
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  margin: const EdgeInsets.only(right: 20),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: (user.profilePicture == null ||
+                              user.profilePicture == '')
+                          ? const AssetImage(
+                              'assets/img_profile.png',
+                            )
+                          : NetworkImage(user.profilePicture!) as ImageProvider,
+                    ),
                   ),
                 ),
               ),

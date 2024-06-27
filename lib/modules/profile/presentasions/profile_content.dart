@@ -55,41 +55,44 @@ class ProfileContent extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: (state.user.profilePicture == null ||
-                                        state.user.profilePicture == '')
-                                    ? const AssetImage(
-                                        'assets/img_profile.png',
-                                      )
-                                    : NetworkImage(state.user.profilePicture!)
-                                        as ImageProvider,
+                          Hero(
+                            tag: 'profile',
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: (state.user.profilePicture == null ||
+                                          state.user.profilePicture == '')
+                                      ? const AssetImage(
+                                          'assets/img_profile.png',
+                                        )
+                                      : NetworkImage(state.user.profilePicture!)
+                                          as ImageProvider,
+                                ),
                               ),
-                            ),
-                            child: state.user.verified == 1
-                                ? Align(
-                                    alignment: Alignment.topRight,
-                                    child: Container(
-                                      width: 28,
-                                      height: 28,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: kWhiteColor,
-                                      ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.check_circle,
-                                          color: kGreenColor,
-                                          size: 24,
+                              child: state.user.verified == 1
+                                  ? Align(
+                                      alignment: Alignment.topRight,
+                                      child: Container(
+                                        width: 28,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: kWhiteColor,
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.check_circle,
+                                            color: kGreenColor,
+                                            size: 24,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : null,
+                                    )
+                                  : null,
+                            ),
                           ),
                           const SizedBox(
                             height: 16,
