@@ -1,4 +1,5 @@
 import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
+import 'package:bank_sha/database/database.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_latest_transaction_item.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
@@ -10,22 +11,13 @@ class HistoryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _elements = [
-      {
-        'message': 'Transaksi sebesar Rp23.000 di MYTELKOMSEL, telah berhasil.',
-        'group': '22 Mei 2024'
-      },
-      {
-        'message':
-            'Rp1.000 telah dipotong dari Saldo untuk biaya top up dari BCA',
-        'group': '22 Mei 2024'
-      },
-    ];
+    final AppDatabase db = AppDatabase();
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 0),
       padding: const EdgeInsets.all(0),
       child: BlocProvider(
-        create: (context) => TransactionBloc()..add(TransactionsGet()),
+        create: (context) => TransactionBloc()..add(TransactionsGet(db)),
         child: BlocBuilder<TransactionBloc, TransactionState>(
           builder: (context, state) {
             if (state is TransactionSuccess) {

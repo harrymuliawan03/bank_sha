@@ -19,6 +19,14 @@ final class TransactionSuccess extends TransactionState {
   List<Object> get props => [transactions];
 }
 
+final class TransactionLocalSuccess extends TransactionState {
+  final List<TransactionModel> transactions;
+  const TransactionLocalSuccess(this.transactions);
+
+  @override
+  List<Object> get props => [transactions];
+}
+
 final class TransactionFailed extends TransactionState {
   final String e;
   const TransactionFailed(this.e);

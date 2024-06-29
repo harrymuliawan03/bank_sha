@@ -3,6 +3,10 @@ import 'package:bank_sha/blocs/tips/tips_bloc.dart';
 import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
 import 'package:bank_sha/blocs/user/user_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
+import 'package:bank_sha/database/database.dart';
+import 'package:bank_sha/database/services/service_database.dart';
+import 'package:bank_sha/database/services/transaction/transaction_db_case.dart';
+import 'package:bank_sha/models/transaction_model.dart';
 import 'package:bank_sha/models/user_model.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_popup_more.dart';
 import 'package:bank_sha/shared/helpers.dart';
@@ -11,6 +15,7 @@ import 'package:bank_sha/modules/home/presentasions/widgets/home_latest_transact
 import 'package:bank_sha/modules/home/presentasions/widgets/home_service_item.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_tips_item.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_user_item.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,12 +29,12 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   UserModel user = UserModel();
+  final db = AppDatabase();
 
   @override
   void initState() {
     super.initState();
     final authState = context.read<AuthBloc>().state;
-
     if (authState is AuthSuccess) {
       user = authState.user;
     }
@@ -389,6 +394,57 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget buildLatestTransactions() {
+    // Future<void> insertData() async {
+    //   final transactionTypes = await ServiceDatabase.insertData(
+    //     db,
+    //     db.transactionTypes,
+    //     TransactionTypesCompanion.insert(
+    //       name: const drift.Value("Top Up"),
+    //       action: const drift.Value("cr"),
+    //     ),
+    //   );
+    // }
+
+    // Future<void> showData() async {
+    //   final transactionTypes = await db.select(db.transactionTypes).get();
+    //   final transaction = await db.select(db.transactions).get();
+
+    //   print('transactionTypes $transactionTypes');
+    //   print('transaction ${transaction.length}');
+    // }
+
+    // Future<List<TransactionModel>> getTransactionsWithTypes() async {
+    //   final query = db.select(db.transactions).join(
+    //     [
+    //       drift.leftOuterJoin(
+    //         db.transactionTypes,
+    //         db.transactionTypes.id.equalsExp(db.transactions.transactionTypeId),
+    //       ),
+    //     ],
+    //   );
+
+    //   final result = await query.get();
+
+    //   final transactionsWithTypes = result.map((row) {
+    //     final transaction = row.readTable(db.transactions);
+    //     final transactionType = row.readTable(db.transactionTypes);
+    //     return TransactionModel(
+    //       id: transaction.id,
+    //       amount: transaction.amount,
+    //       createdAt: transaction.createdAt,
+    //       transactionType: (transactionType as TransactionType?) != null
+    //           ? TransactionTypeModel.fromData(transactionType)
+    //           : null,
+    //     );
+    //   }).toList();
+
+    //   return transactionsWithTypes;
+    // }
+
+    // Future<void> deleteData() async {
+    //   final transactionTypes = await db.delete(db.transactionTypes).go();
+    // }
+
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -414,27 +470,13 @@ class _HomeContentState extends State<HomeContent> {
             ),
             height: 400,
             child: BlocProvider(
-              create: (context) => TransactionBloc()..add(TransactionsGet()),
+              create: (context) => TransactionBloc()..add(TransactionsGet(db)),
               child: BlocBuilder<TransactionBloc, TransactionState>(
                 builder: (context, state) {
                   if (state is TransactionSuccess) {
-                    if (state.transactions.isNotEmpty) {
-                      return ListView(
-                          padding: const EdgeInsets.all(0),
-                          children: state.transactions
-                              .map((item) => HomeLatestTransactionItem(
-                                    transaction: item,
-                                  ))
-                              .toList());
-                    }
-                    return Center(
-                      child: Text(
-                        'There is no transaction',
-                        style: blackTextStyle.copyWith(
-                          fontWeight: medium,
-                        ),
-                      ),
-                    );
+                    return _buildTransactionList(state.transactions);
+                  } else if (state is TransactionLocalSuccess) {
+                    return _buildTransactionList(state.transactions);
                   }
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -448,10 +490,37 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 
+  Widget _buildTransactionList(List<TransactionModel> transactions) {
+    if (transactions.isNotEmpty) {
+      return ListView(
+        padding: const EdgeInsets.all(0),
+        children: [
+          ...transactions.map((item) => HomeLatestTransactionItem(
+                transaction: item,
+              )),
+        ],
+      );
+    }
+    return Center(
+      child: Text(
+        'There is no transaction',
+        style: blackTextStyle.copyWith(
+          fontWeight: medium,
+        ),
+      ),
+    );
+  }
+
   Widget buildSendAgain() {
     return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(defaultMargin),
       margin: const EdgeInsets.only(
         top: 30,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: kWhiteColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

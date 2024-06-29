@@ -1,3 +1,5 @@
+import 'package:bank_sha/database/database.dart';
+
 class TransactionModel {
   final int? id;
   final int? amount;
@@ -47,4 +49,17 @@ class TransactionTypeModel {
         action: json['action'],
         thumbnail: json['thumbnail'],
       );
+
+  factory TransactionTypeModel.fromData(TransactionType transactionType) =>
+      TransactionTypeModel(
+        id: transactionType.id,
+        name: transactionType.name,
+        action: transactionType.action,
+        code: transactionType.code,
+        thumbnail: transactionType.thumbnail,
+      );
+  @override
+  String toString() {
+    return 'TransactionTypeModel{id: $id, name: $name}';
+  }
 }
