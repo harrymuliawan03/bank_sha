@@ -11,13 +11,13 @@ class HistoryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppDatabase db = AppDatabase();
+    // final AppDatabase db = AppDatabase();
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 0),
       padding: const EdgeInsets.all(0),
       child: BlocProvider(
-        create: (context) => TransactionBloc()..add(TransactionsGet(db)),
+        create: (context) => TransactionBloc()..add(TransactionsGet()),
         child: BlocBuilder<TransactionBloc, TransactionState>(
           builder: (context, state) {
             if (state is TransactionSuccess) {

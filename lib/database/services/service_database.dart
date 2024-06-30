@@ -1,8 +1,23 @@
 import 'package:bank_sha/database/core/response_database.dart';
 import 'package:bank_sha/database/database.dart';
 import 'package:drift/drift.dart';
+import 'package:drift/isolate.dart';
+import 'package:drift/native.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class ServiceDatabase {
+// Function to create and return a DriftIsolate
+  static Future<DriftIsolate> createDriftIsolate() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final path = p.join(dir.path, 'db.sqlite');
+    final isolate = await DriftIsolate.spawn(
+      () => NativeDatabase(File(path)),
+    );
+    return isolate;
+  }
+
   static Future<ResponseDatabase<T>> insertData<T>(
     AppDatabase db,
     TableInfo table,

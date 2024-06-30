@@ -7,12 +7,10 @@ sealed class TransactionEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TransactionsGet extends TransactionEvent {
-  final AppDatabase database;
-  const TransactionsGet(this.database);
-}
+class TransactionsGet extends TransactionEvent {}
 
 class TransactionGetLocal extends TransactionEvent {
-  final AppDatabase database;
-  const TransactionGetLocal(this.database);
+  final DriftIsolate driftIsolate;
+  final AppDatabase db;
+  const TransactionGetLocal(this.driftIsolate, this.db);
 }

@@ -14,10 +14,15 @@ part 'database.g.dart';
 
 @DriftDatabase(tables: [TransactionTypes, Transactions])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase(QueryExecutor e) : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
+
+  // Add a named constructor to connect using DriftIsolate
+  factory AppDatabase.connect(DatabaseConnection connection) {
+    return AppDatabase(connection.executor);
+  }
 }
 
 LazyDatabase _openConnection() {

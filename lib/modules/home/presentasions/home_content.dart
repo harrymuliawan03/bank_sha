@@ -29,7 +29,7 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   UserModel user = UserModel();
-  final db = AppDatabase();
+  // final db = AppDatabase();
 
   @override
   void initState() {
@@ -470,7 +470,7 @@ class _HomeContentState extends State<HomeContent> {
             ),
             height: 400,
             child: BlocProvider(
-              create: (context) => TransactionBloc()..add(TransactionsGet(db)),
+              create: (context) => TransactionBloc()..add(TransactionsGet()),
               child: BlocBuilder<TransactionBloc, TransactionState>(
                 builder: (context, state) {
                   if (state is TransactionSuccess) {
