@@ -39,7 +39,6 @@ Future<ResponseUseCase<List<TransactionModel>>> getTransactionsCase(
 
       data.add(transactionData);
     }
-    print('success');
 
     return ResponseUseCase<List<TransactionModel>>(
       valid: true,
@@ -47,7 +46,6 @@ Future<ResponseUseCase<List<TransactionModel>>> getTransactionsCase(
       data: data,
     );
   } else {
-    print('failed');
     return ResponseUseCase<List<TransactionModel>>(
       valid: false,
       message: res.message ?? 'Failed to fetch data',

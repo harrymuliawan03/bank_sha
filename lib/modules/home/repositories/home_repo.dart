@@ -2,7 +2,7 @@ import 'package:bank_sha/configs/api/core_api.dart';
 import 'package:bank_sha/configs/api/api_models.dart';
 
 Future<HttpResponse<T>> getTransactionsRepo<T>() async {
-  var res = await getDataWithToken<T>('/transactionsa?limit=10', null, true);
+  var res = await getDataWithToken<T>('/transactions?limit=10', null, true);
 
   if (res.response != null) {
     res = res.copyWith(response: res.response['data']);

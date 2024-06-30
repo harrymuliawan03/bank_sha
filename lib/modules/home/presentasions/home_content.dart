@@ -38,7 +38,7 @@ class _HomeContentState extends State<HomeContent> {
     super.initState();
     final authState = context.read<AuthBloc>().state;
     _dbFuture = _initDbConnection().then(
-      (value) async => await _onTransactionGetLocal(),
+      (value) => _onTransactionGetLocal(),
     );
     if (authState is AuthSuccess) {
       user = authState.user;
@@ -47,8 +47,7 @@ class _HomeContentState extends State<HomeContent> {
 
   Future<void> _initDbConnection() async {
     final driftIsolate = await ServiceDatabase.createDriftIsolate();
-    final dbConnection = await driftIsolate.connect();
-    db = AppDatabase.connect(dbConnection);
+    db = AppDatabase.connect(await driftIsolate.connect());
   }
 
   Future<void> _onTransactionGetLocal() async {
