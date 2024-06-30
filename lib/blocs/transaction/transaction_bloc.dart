@@ -11,7 +11,7 @@ part 'transaction_state.dart';
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc() : super(TransactionInitial()) {
     on<TransactionsGet>(_onTransactionsGet);
-    on<TransactionGetLocal>(_onTransactionGetLocal);
+    // on<TransactionGetLocal>(_onTransactionGetLocal);
   }
   Future<void> _onTransactionsGet(
       TransactionsGet event, Emitter<TransactionState> emit) async {
@@ -23,20 +23,20 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       if (res.valid) {
         emit(TransactionSuccess(res.data!));
       } else {
-        add(TransactionGetLocal(event.database));
+        emit(TransactionFailed(res.message));
       }
     } catch (e) {
       emit(TransactionFailed(e.toString()));
     }
   }
 
-  Future<void> _onTransactionGetLocal(
-      TransactionGetLocal event, Emitter<TransactionState> emit) async {
-    try {
-      final res = await TransactionDbCase.getTransactions(event.database);
-      emit(TransactionLocalSuccess(res));
-    } catch (e) {
-      emit(TransactionFailed(e.toString()));
-    }
-  }
+  // Future<void> _onTransactionGetLocal(
+  //     TransactionGetLocal event, Emitter<TransactionState> emit) async {
+  //   try {
+  //     final res = await TransactionDbCase.getTransactions(event.database);
+  //     emit(TransactionLocalSuccess(res));
+  //   } catch (e) {
+  //     emit(TransactionFailed(e.toString()));
+  //   }
+  // }
 }

@@ -15,7 +15,6 @@ import 'package:bank_sha/modules/home/presentasions/widgets/home_latest_transact
 import 'package:bank_sha/modules/home/presentasions/widgets/home_service_item.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_tips_item.dart';
 import 'package:bank_sha/modules/home/presentasions/widgets/home_user_item.dart';
-import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,14 +28,38 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   UserModel user = UserModel();
-  final db = AppDatabase();
+  AppDatabase? db;
+  List<TransactionModel> transactions = [];
+
+  late Future<void> _dbFuture;
 
   @override
   void initState() {
     super.initState();
     final authState = context.read<AuthBloc>().state;
+    _dbFuture = _initDbConnection().then(
+      (value) async => await _onTransactionGetLocal(),
+    );
     if (authState is AuthSuccess) {
       user = authState.user;
+    }
+  }
+
+  Future<void> _initDbConnection() async {
+    final driftIsolate = await ServiceDatabase.createDriftIsolate();
+    final dbConnection = await driftIsolate.connect();
+    db = AppDatabase.connect(dbConnection);
+  }
+
+  Future<void> _onTransactionGetLocal() async {
+    try {
+      final res = await TransactionDbCase.getTransactions(db!);
+      setState(() {
+        transactions = res;
+      });
+      print('res $res');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -394,57 +417,6 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Widget buildLatestTransactions() {
-    // Future<void> insertData() async {
-    //   final transactionTypes = await ServiceDatabase.insertData(
-    //     db,
-    //     db.transactionTypes,
-    //     TransactionTypesCompanion.insert(
-    //       name: const drift.Value("Top Up"),
-    //       action: const drift.Value("cr"),
-    //     ),
-    //   );
-    // }
-
-    // Future<void> showData() async {
-    //   final transactionTypes = await db.select(db.transactionTypes).get();
-    //   final transaction = await db.select(db.transactions).get();
-
-    //   print('transactionTypes $transactionTypes');
-    //   print('transaction ${transaction.length}');
-    // }
-
-    // Future<List<TransactionModel>> getTransactionsWithTypes() async {
-    //   final query = db.select(db.transactions).join(
-    //     [
-    //       drift.leftOuterJoin(
-    //         db.transactionTypes,
-    //         db.transactionTypes.id.equalsExp(db.transactions.transactionTypeId),
-    //       ),
-    //     ],
-    //   );
-
-    //   final result = await query.get();
-
-    //   final transactionsWithTypes = result.map((row) {
-    //     final transaction = row.readTable(db.transactions);
-    //     final transactionType = row.readTable(db.transactionTypes);
-    //     return TransactionModel(
-    //       id: transaction.id,
-    //       amount: transaction.amount,
-    //       createdAt: transaction.createdAt,
-    //       transactionType: (transactionType as TransactionType?) != null
-    //           ? TransactionTypeModel.fromData(transactionType)
-    //           : null,
-    //     );
-    //   }).toList();
-
-    //   return transactionsWithTypes;
-    // }
-
-    // Future<void> deleteData() async {
-    //   final transactionTypes = await db.delete(db.transactionTypes).go();
-    // }
-
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -469,20 +441,32 @@ class _HomeContentState extends State<HomeContent> {
               color: kWhiteColor,
             ),
             height: 400,
-            child: BlocProvider(
-              create: (context) => TransactionBloc()..add(TransactionsGet(db)),
-              child: BlocBuilder<TransactionBloc, TransactionState>(
-                builder: (context, state) {
-                  if (state is TransactionSuccess) {
-                    return _buildTransactionList(state.transactions);
-                  } else if (state is TransactionLocalSuccess) {
-                    return _buildTransactionList(state.transactions);
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
+            child: FutureBuilder(
+              future: _dbFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return BlocProvider(
+                    create: (context) =>
+                        TransactionBloc()..add(TransactionsGet(db!)),
+                    child: BlocBuilder<TransactionBloc, TransactionState>(
+                      builder: (context, state) {
+                        if (state is TransactionSuccess) {
+                          return _buildTransactionList(state.transactions);
+                        } else if (state is TransactionFailed) {
+                          return _buildTransactionList(transactions);
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                }
+              },
             ),
           ),
         ],
