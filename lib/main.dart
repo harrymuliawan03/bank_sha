@@ -1,5 +1,7 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
+import 'package:bank_sha/blocs/mobil-cubit/transaction_cubit.dart';
 import 'package:bank_sha/blocs/profile/profile_bloc.dart';
+import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
 import 'package:bank_sha/blocs/user/user_bloc.dart';
 import 'package:bank_sha/configs/router/route.dart';
 import 'package:bank_sha/shared/theme.dart';
@@ -10,9 +12,14 @@ void main() {
   runApp(const BankSha());
 }
 
-class BankSha extends StatelessWidget {
+class BankSha extends StatefulWidget {
   const BankSha({super.key});
 
+  @override
+  State<BankSha> createState() => _BankShaState();
+}
+
+class _BankShaState extends State<BankSha> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -22,6 +29,12 @@ class BankSha extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UserBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TransactionBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TransactionCubit(),
         ),
       ],
       child: MaterialApp.router(

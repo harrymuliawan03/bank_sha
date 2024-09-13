@@ -7,7 +7,7 @@ import 'package:bank_sha/modules/home/repositories/home_repo.dart';
 import 'package:drift/drift.dart';
 
 Future<ResponseUseCase<List<TransactionModel>>> getTransactionsCase(
-    AppDatabase db) async {
+    {AppDatabase? db}) async {
   var res = await getTransactionsRepo<List<Map<String, dynamic>>>();
 
   if (res.success) {
@@ -16,26 +16,28 @@ Future<ResponseUseCase<List<TransactionModel>>> getTransactionsCase(
     for (var transaction in res.response!) {
       final transactionData = TransactionModel.fromJson(transaction);
 
-      await ServiceDatabase.insertData(
-          db,
-          db.transactionTypes,
-          TransactionTypesCompanion.insert(
-            id: Value(transactionData.transactionType!.id!),
-            code: Value(transactionData.transactionType!.code!),
-            name: Value(transactionData.transactionType!.name!),
-            action: Value(transactionData.transactionType!.action!),
-            thumbnail: Value(transactionData.transactionType!.thumbnail!),
-          ));
+      if (db != null) {
+        await ServiceDatabase.insertData(
+            db,
+            db.transactionTypes,
+            TransactionTypesCompanion.insert(
+              id: Value(transactionData.transactionType!.id!),
+              code: Value(transactionData.transactionType!.code!),
+              name: Value(transactionData.transactionType!.name!),
+              action: Value(transactionData.transactionType!.action!),
+              thumbnail: Value(transactionData.transactionType!.thumbnail!),
+            ));
 
-      await ServiceDatabase.insertData(
-          db,
-          db.transactions,
-          TransactionsCompanion.insert(
-            id: Value(transactionData.id!),
-            amount: transactionData.amount!,
-            createdAt: transactionData.createdAt!,
-            transactionTypeId: transactionData.transactionType!.id!,
-          ));
+        await ServiceDatabase.insertData(
+            db,
+            db.transactions,
+            TransactionsCompanion.insert(
+              id: Value(transactionData.id!),
+              amount: transactionData.amount!,
+              createdAt: transactionData.createdAt!,
+              transactionTypeId: transactionData.transactionType!.id!,
+            ));
+      }
 
       data.add(transactionData);
     }

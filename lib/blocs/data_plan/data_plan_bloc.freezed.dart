@@ -50,7 +50,9 @@ mixin _$DataPlanEvent {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataPlanEventCopyWith<DataPlanEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -76,6 +78,8 @@ class _$DataPlanEventCopyWithImpl<$Res, $Val extends DataPlanEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class _$DataPlanEventCopyWithImpl<$Res, $Val extends DataPlanEvent>
     ) as $Val);
   }
 
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $DataPlanRequestModelCopyWith<$Res> get data {
@@ -120,6 +126,8 @@ class __$$BuyDataPlanImplCopyWithImpl<$Res>
       _$BuyDataPlanImpl _value, $Res Function(_$BuyDataPlanImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,7 +166,9 @@ class _$BuyDataPlanImpl implements _BuyDataPlan {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BuyDataPlanImplCopyWith<_$BuyDataPlanImpl> get copyWith =>
@@ -227,8 +237,11 @@ abstract class _BuyDataPlan implements DataPlanEvent {
 
   @override
   DataPlanRequestModel get data;
+
+  /// Create a copy of DataPlanEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BuyDataPlanImplCopyWith<_$BuyDataPlanImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -303,6 +316,9 @@ class _$DataPlanStateCopyWithImpl<$Res, $Val extends DataPlanState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -319,6 +335,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -433,6 +452,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -547,6 +569,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -664,6 +689,8 @@ class __$$FailedImplCopyWithImpl<$Res>
       _$FailedImpl _value, $Res Function(_$FailedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -702,7 +729,9 @@ class _$FailedImpl implements _Failed {
   @override
   int get hashCode => Object.hash(runtimeType, e);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FailedImplCopyWith<_$FailedImpl> get copyWith =>
@@ -787,7 +816,10 @@ abstract class _Failed implements DataPlanState {
   const factory _Failed(final String e) = _$FailedImpl;
 
   String get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataPlanState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailedImplCopyWith<_$FailedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

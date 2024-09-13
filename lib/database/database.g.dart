@@ -174,6 +174,16 @@ class TransactionType extends DataClass implements Insertable<TransactionType> {
         action: action.present ? action.value : this.action,
         thumbnail: thumbnail.present ? thumbnail.value : this.thumbnail,
       );
+  TransactionType copyWithCompanion(TransactionTypesCompanion data) {
+    return TransactionType(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      code: data.code.present ? data.code.value : this.code,
+      action: data.action.present ? data.action.value : this.action,
+      thumbnail: data.thumbnail.present ? data.thumbnail.value : this.thumbnail,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('TransactionType(')
@@ -438,6 +448,17 @@ class Transaction extends DataClass implements Insertable<Transaction> {
         createdAt: createdAt ?? this.createdAt,
         transactionTypeId: transactionTypeId ?? this.transactionTypeId,
       );
+  Transaction copyWithCompanion(TransactionsCompanion data) {
+    return Transaction(
+      id: data.id.present ? data.id.value : this.id,
+      amount: data.amount.present ? data.amount.value : this.amount,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      transactionTypeId: data.transactionTypeId.present
+          ? data.transactionTypeId.value
+          : this.transactionTypeId,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Transaction(')
@@ -539,7 +560,7 @@ class TransactionsCompanion extends UpdateCompanion<Transaction> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
-  _$AppDatabaseManager get managers => _$AppDatabaseManager(this);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TransactionTypesTable transactionTypes =
       $TransactionTypesTable(this);
   late final $TransactionsTable transactions = $TransactionsTable(this);
@@ -551,7 +572,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       [transactionTypes, transactions];
 }
 
-typedef $$TransactionTypesTableInsertCompanionBuilder
+typedef $$TransactionTypesTableCreateCompanionBuilder
     = TransactionTypesCompanion Function({
   Value<int> id,
   Value<String?> name,
@@ -567,70 +588,6 @@ typedef $$TransactionTypesTableUpdateCompanionBuilder
   Value<String?> action,
   Value<String?> thumbnail,
 });
-
-class $$TransactionTypesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TransactionTypesTable,
-    TransactionType,
-    $$TransactionTypesTableFilterComposer,
-    $$TransactionTypesTableOrderingComposer,
-    $$TransactionTypesTableProcessedTableManager,
-    $$TransactionTypesTableInsertCompanionBuilder,
-    $$TransactionTypesTableUpdateCompanionBuilder> {
-  $$TransactionTypesTableTableManager(
-      _$AppDatabase db, $TransactionTypesTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$TransactionTypesTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$TransactionTypesTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$TransactionTypesTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            Value<String?> name = const Value.absent(),
-            Value<String?> code = const Value.absent(),
-            Value<String?> action = const Value.absent(),
-            Value<String?> thumbnail = const Value.absent(),
-          }) =>
-              TransactionTypesCompanion(
-            id: id,
-            name: name,
-            code: code,
-            action: action,
-            thumbnail: thumbnail,
-          ),
-          getInsertCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            Value<String?> name = const Value.absent(),
-            Value<String?> code = const Value.absent(),
-            Value<String?> action = const Value.absent(),
-            Value<String?> thumbnail = const Value.absent(),
-          }) =>
-              TransactionTypesCompanion.insert(
-            id: id,
-            name: name,
-            code: code,
-            action: action,
-            thumbnail: thumbnail,
-          ),
-        ));
-}
-
-class $$TransactionTypesTableProcessedTableManager
-    extends ProcessedTableManager<
-        _$AppDatabase,
-        $TransactionTypesTable,
-        TransactionType,
-        $$TransactionTypesTableFilterComposer,
-        $$TransactionTypesTableOrderingComposer,
-        $$TransactionTypesTableProcessedTableManager,
-        $$TransactionTypesTableInsertCompanionBuilder,
-        $$TransactionTypesTableUpdateCompanionBuilder> {
-  $$TransactionTypesTableProcessedTableManager(super.$state);
-}
 
 class $$TransactionTypesTableFilterComposer
     extends FilterComposer<_$AppDatabase, $TransactionTypesTable> {
@@ -690,7 +647,79 @@ class $$TransactionTypesTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-typedef $$TransactionsTableInsertCompanionBuilder = TransactionsCompanion
+class $$TransactionTypesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $TransactionTypesTable,
+    TransactionType,
+    $$TransactionTypesTableFilterComposer,
+    $$TransactionTypesTableOrderingComposer,
+    $$TransactionTypesTableCreateCompanionBuilder,
+    $$TransactionTypesTableUpdateCompanionBuilder,
+    (
+      TransactionType,
+      BaseReferences<_$AppDatabase, $TransactionTypesTable, TransactionType>
+    ),
+    TransactionType,
+    PrefetchHooks Function()> {
+  $$TransactionTypesTableTableManager(
+      _$AppDatabase db, $TransactionTypesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$TransactionTypesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$TransactionTypesTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<String?> code = const Value.absent(),
+            Value<String?> action = const Value.absent(),
+            Value<String?> thumbnail = const Value.absent(),
+          }) =>
+              TransactionTypesCompanion(
+            id: id,
+            name: name,
+            code: code,
+            action: action,
+            thumbnail: thumbnail,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<String?> code = const Value.absent(),
+            Value<String?> action = const Value.absent(),
+            Value<String?> thumbnail = const Value.absent(),
+          }) =>
+              TransactionTypesCompanion.insert(
+            id: id,
+            name: name,
+            code: code,
+            action: action,
+            thumbnail: thumbnail,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TransactionTypesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $TransactionTypesTable,
+    TransactionType,
+    $$TransactionTypesTableFilterComposer,
+    $$TransactionTypesTableOrderingComposer,
+    $$TransactionTypesTableCreateCompanionBuilder,
+    $$TransactionTypesTableUpdateCompanionBuilder,
+    (
+      TransactionType,
+      BaseReferences<_$AppDatabase, $TransactionTypesTable, TransactionType>
+    ),
+    TransactionType,
+    PrefetchHooks Function()>;
+typedef $$TransactionsTableCreateCompanionBuilder = TransactionsCompanion
     Function({
   Value<int> id,
   required int amount,
@@ -704,64 +733,6 @@ typedef $$TransactionsTableUpdateCompanionBuilder = TransactionsCompanion
   Value<String> createdAt,
   Value<int> transactionTypeId,
 });
-
-class $$TransactionsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TransactionsTable,
-    Transaction,
-    $$TransactionsTableFilterComposer,
-    $$TransactionsTableOrderingComposer,
-    $$TransactionsTableProcessedTableManager,
-    $$TransactionsTableInsertCompanionBuilder,
-    $$TransactionsTableUpdateCompanionBuilder> {
-  $$TransactionsTableTableManager(_$AppDatabase db, $TransactionsTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          filteringComposer:
-              $$TransactionsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$TransactionsTableOrderingComposer(ComposerState(db, table)),
-          getChildManagerBuilder: (p) =>
-              $$TransactionsTableProcessedTableManager(p),
-          getUpdateCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            Value<int> amount = const Value.absent(),
-            Value<String> createdAt = const Value.absent(),
-            Value<int> transactionTypeId = const Value.absent(),
-          }) =>
-              TransactionsCompanion(
-            id: id,
-            amount: amount,
-            createdAt: createdAt,
-            transactionTypeId: transactionTypeId,
-          ),
-          getInsertCompanionBuilder: ({
-            Value<int> id = const Value.absent(),
-            required int amount,
-            required String createdAt,
-            required int transactionTypeId,
-          }) =>
-              TransactionsCompanion.insert(
-            id: id,
-            amount: amount,
-            createdAt: createdAt,
-            transactionTypeId: transactionTypeId,
-          ),
-        ));
-}
-
-class $$TransactionsTableProcessedTableManager extends ProcessedTableManager<
-    _$AppDatabase,
-    $TransactionsTable,
-    Transaction,
-    $$TransactionsTableFilterComposer,
-    $$TransactionsTableOrderingComposer,
-    $$TransactionsTableProcessedTableManager,
-    $$TransactionsTableInsertCompanionBuilder,
-    $$TransactionsTableUpdateCompanionBuilder> {
-  $$TransactionsTableProcessedTableManager(super.$state);
-}
 
 class $$TransactionsTableFilterComposer
     extends FilterComposer<_$AppDatabase, $TransactionsTable> {
@@ -811,9 +782,77 @@ class $$TransactionsTableOrderingComposer
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
-class _$AppDatabaseManager {
+class $$TransactionsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $TransactionsTable,
+    Transaction,
+    $$TransactionsTableFilterComposer,
+    $$TransactionsTableOrderingComposer,
+    $$TransactionsTableCreateCompanionBuilder,
+    $$TransactionsTableUpdateCompanionBuilder,
+    (
+      Transaction,
+      BaseReferences<_$AppDatabase, $TransactionsTable, Transaction>
+    ),
+    Transaction,
+    PrefetchHooks Function()> {
+  $$TransactionsTableTableManager(_$AppDatabase db, $TransactionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$TransactionsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer:
+              $$TransactionsTableOrderingComposer(ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> amount = const Value.absent(),
+            Value<String> createdAt = const Value.absent(),
+            Value<int> transactionTypeId = const Value.absent(),
+          }) =>
+              TransactionsCompanion(
+            id: id,
+            amount: amount,
+            createdAt: createdAt,
+            transactionTypeId: transactionTypeId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int amount,
+            required String createdAt,
+            required int transactionTypeId,
+          }) =>
+              TransactionsCompanion.insert(
+            id: id,
+            amount: amount,
+            createdAt: createdAt,
+            transactionTypeId: transactionTypeId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TransactionsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $TransactionsTable,
+    Transaction,
+    $$TransactionsTableFilterComposer,
+    $$TransactionsTableOrderingComposer,
+    $$TransactionsTableCreateCompanionBuilder,
+    $$TransactionsTableUpdateCompanionBuilder,
+    (
+      Transaction,
+      BaseReferences<_$AppDatabase, $TransactionsTable, Transaction>
+    ),
+    Transaction,
+    PrefetchHooks Function()>;
+
+class $AppDatabaseManager {
   final _$AppDatabase _db;
-  _$AppDatabaseManager(this._db);
+  $AppDatabaseManager(this._db);
   $$TransactionTypesTableTableManager get transactionTypes =>
       $$TransactionTypesTableTableManager(_db, _db.transactionTypes);
   $$TransactionsTableTableManager get transactions =>

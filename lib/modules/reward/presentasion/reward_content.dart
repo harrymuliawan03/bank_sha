@@ -1,5 +1,7 @@
+import 'package:bank_sha/blocs/mobil-cubit/transaction_cubit.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 class RewardContent extends StatelessWidget {
@@ -100,6 +102,41 @@ class RewardContent extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // Update the transactions when the button is pressed
+            context.read<TransactionCubit>().updateTransaction([
+              'Transaction 1',
+              'Transaction 2',
+              'Transaction 3',
+            ]);
+          },
+          child: Text('Update Transactions'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // Update the transactions when the button is pressed
+            context.read<TransactionCubit>().updateTransaction([
+              'Transaction 3',
+              'Transaction 2',
+              'Transaction 1',
+            ]);
+          },
+          child: Text('Update Transactions 2'),
+        ),
+        BlocBuilder<TransactionCubit, TransactionState>(
+          builder: (context, state) {
+            if (state.transactions.isEmpty) {
+              return Center(child: Text('No transactions available'));
+            }
+            return Column(
+              children: state.transactions.map((e) => Text(e)).toList(),
+            );
+          },
+        ),
+        const SizedBox(
+          height: 50,
         ),
       ],
     );

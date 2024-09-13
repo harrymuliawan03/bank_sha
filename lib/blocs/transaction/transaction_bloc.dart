@@ -18,7 +18,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     try {
       emit(TransactionLoading());
 
-      final res = await getTransactionsCase(event.database);
+      final res = await getTransactionsCase(db: event.database);
 
       if (res.valid) {
         emit(TransactionSuccess(res.data!));

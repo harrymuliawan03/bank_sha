@@ -2,7 +2,7 @@ import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:bank_sha/shared/widgets/text_button_widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +15,8 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   var currentIndex = 0;
-  CarouselController carouselController = CarouselController();
+  cs.CarouselSliderController carouselController =
+      cs.CarouselSliderController();
   List<String> title = [
     'Grow Your\nFinancial Today',
     'Build From\nZero to Freedom',
@@ -34,7 +35,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CarouselSlider(
+            cs.CarouselSlider(
               carouselController: carouselController,
               items: [
                 Image.asset(
@@ -50,7 +51,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   height: 331,
                 ),
               ],
-              options: CarouselOptions(
+              options: cs.CarouselOptions(
                 height: 331,
                 viewportFraction: 1,
                 enableInfiniteScroll: false,

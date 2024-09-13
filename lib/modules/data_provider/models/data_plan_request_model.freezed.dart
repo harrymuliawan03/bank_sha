@@ -27,8 +27,12 @@ mixin _$DataPlanRequestModel {
   @JsonKey(name: 'pin')
   String? get pin => throw _privateConstructorUsedError;
 
+  /// Serializes this DataPlanRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataPlanRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataPlanRequestModelCopyWith<DataPlanRequestModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$DataPlanRequestModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataPlanRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -102,6 +108,8 @@ class __$$DataPlanRequestModelImplCopyWithImpl<$Res>
       $Res Function(_$DataPlanRequestModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataPlanRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,11 +172,13 @@ class _$DataPlanRequestModelImpl implements _DataPlanRequestModel {
             (identical(other.pin, pin) || other.pin == pin));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, dataPlanId, phoneNumber, pin);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataPlanRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataPlanRequestModelImplCopyWith<_$DataPlanRequestModelImpl>
@@ -202,8 +212,11 @@ abstract class _DataPlanRequestModel implements DataPlanRequestModel {
   @override
   @JsonKey(name: 'pin')
   String? get pin;
+
+  /// Create a copy of DataPlanRequestModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataPlanRequestModelImplCopyWith<_$DataPlanRequestModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

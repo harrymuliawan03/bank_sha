@@ -66,6 +66,9 @@ class _$DataProviderEventCopyWithImpl<$Res, $Val extends DataProviderEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DataProviderEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -82,6 +85,9 @@ class __$$GetDataProviderImplCopyWithImpl<$Res>
   __$$GetDataProviderImplCopyWithImpl(
       _$GetDataProviderImpl _value, $Res Function(_$GetDataProviderImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataProviderEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -234,6 +240,9 @@ class _$DataProviderStateCopyWithImpl<$Res, $Val extends DataProviderState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -250,6 +259,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -364,6 +376,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -481,6 +496,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -525,7 +542,9 @@ class _$SuccessImpl implements _Success {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -610,7 +629,10 @@ abstract class _Success implements DataProviderState {
   const factory _Success(final List<DataProviderModel> data) = _$SuccessImpl;
 
   List<DataProviderModel> get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -632,6 +654,8 @@ class __$$FailedImplCopyWithImpl<$Res>
       _$FailedImpl _value, $Res Function(_$FailedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -670,7 +694,9 @@ class _$FailedImpl implements _Failed {
   @override
   int get hashCode => Object.hash(runtimeType, e);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FailedImplCopyWith<_$FailedImpl> get copyWith =>
@@ -755,7 +781,10 @@ abstract class _Failed implements DataProviderState {
   const factory _Failed(final String e) = _$FailedImpl;
 
   String get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailedImplCopyWith<_$FailedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

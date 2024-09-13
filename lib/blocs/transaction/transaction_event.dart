@@ -8,7 +8,7 @@ sealed class TransactionEvent extends Equatable {
 }
 
 class TransactionsGet extends TransactionEvent {
-  final AppDatabase database;
+  final AppDatabase? database;
   const TransactionsGet(this.database);
 }
 

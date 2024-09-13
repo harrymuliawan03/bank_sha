@@ -112,23 +112,24 @@ class SignInContent extends StatelessWidget {
                         height: 30,
                       ),
                       ButtonWidget(
-                          onPress: () {
-                            final email = emailController.text;
-                            final password = passwordController.text;
-                            SignInFormModel data = SignInFormModel(
-                                email: email, password: password);
-                            if (validate(email, password)) {
-                              context.read<AuthBloc>().add(
-                                    AuthLogin(data),
-                                  );
-                            } else {
-                              showCustomSnackbar(
-                                context,
-                                'Field tidak boleh ada yang kosong',
-                              );
-                            }
-                          },
-                          title: 'Sign In')
+                        onPress: () {
+                          final email = emailController.text;
+                          final password = passwordController.text;
+                          SignInFormModel data =
+                              SignInFormModel(email: email, password: password);
+                          if (validate(email, password)) {
+                            context.read<AuthBloc>().add(
+                                  AuthLogin(data),
+                                );
+                          } else {
+                            showCustomSnackbar(
+                              context,
+                              'Field tidak boleh ada yang kosong',
+                            );
+                          }
+                        },
+                        title: 'Sign In',
+                      )
                     ],
                   ),
                 ),

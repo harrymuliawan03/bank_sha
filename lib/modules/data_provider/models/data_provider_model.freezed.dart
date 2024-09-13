@@ -27,8 +27,12 @@ mixin _$DataProviderModel {
   @JsonKey(name: 'data_plans')
   List<DataPlanModel>? get dataPlans => throw _privateConstructorUsedError;
 
+  /// Serializes this DataProviderModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DataProviderModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $DataProviderModelCopyWith<DataProviderModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$DataProviderModelCopyWithImpl<$Res, $Val extends DataProviderModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of DataProviderModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -115,6 +121,8 @@ class __$$DataProviderModelImplCopyWithImpl<$Res>
       $Res Function(_$DataProviderModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DataProviderModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -201,12 +209,14 @@ class _$DataProviderModelImpl implements _DataProviderModel {
                 .equals(other._dataPlans, _dataPlans));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, status, thumbnail,
       const DeepCollectionEquality().hash(_dataPlans));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DataProviderModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataProviderModelImplCopyWith<_$DataProviderModelImpl> get copyWith =>
@@ -244,8 +254,11 @@ abstract class _DataProviderModel implements DataProviderModel {
   @override
   @JsonKey(name: 'data_plans')
   List<DataPlanModel>? get dataPlans;
+
+  /// Create a copy of DataProviderModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataProviderModelImplCopyWith<_$DataProviderModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

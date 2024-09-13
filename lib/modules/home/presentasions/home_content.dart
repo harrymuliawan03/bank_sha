@@ -26,12 +26,23 @@ class HomeContent extends StatefulWidget {
   State<HomeContent> createState() => _HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent> {
+class _HomeContentState extends State<HomeContent>
+    with SingleTickerProviderStateMixin {
   UserModel user = UserModel();
   AppDatabase? db;
   List<TransactionModel> transactions = [];
 
   late Future<void> _dbFuture;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  double piggyBankPosition = 0.7;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   void initState() {
@@ -43,6 +54,18 @@ class _HomeContentState extends State<HomeContent> {
     if (authState is AuthSuccess) {
       user = authState.user;
     }
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 0.7, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   Future<void> _initDbConnection() async {
@@ -64,78 +87,139 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          surfaceTintColor: Colors.white,
-          centerTitle: false,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Howdy,',
-                style: greyTextStyle.copyWith(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(
-                height: 2,
-              ),
-              Text(
-                user.name!,
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: semiBold,
-                ),
-              ),
-            ],
-          ),
-          floating: true,
-          // pinned: true,
-          expandedHeight: 70,
-          actions: [
-            GestureDetector(
-              onTap: () {
-                context.goNamed(RouteNames.profile);
-              },
-              child: Hero(
-                tag: "profile",
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  margin: const EdgeInsets.only(right: 20),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: (user.profilePicture == null ||
-                              user.profilePicture == '')
-                          ? const AssetImage(
-                              'assets/img_profile.png',
-                            )
-                          : NetworkImage(user.profilePicture!) as ImageProvider,
+    return Stack(
+      children: [
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              surfaceTintColor: Colors.white,
+              centerTitle: false,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Howdy,',
+                    style: greyTextStyle.copyWith(
+                      fontSize: 16,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    user.name!,
+                    style: blackTextStyle.copyWith(
+                      fontSize: 20,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                ],
+              ),
+              floating: true,
+              // pinned: true,
+              expandedHeight: 70,
+              actions: [
+                GestureDetector(
+                  onTap: () {
+                    context.goNamed(RouteNames.profile);
+                  },
+                  child: Hero(
+                    tag: "profile",
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      margin: const EdgeInsets.only(right: 20),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: (user.profilePicture == null ||
+                                  user.profilePicture == '')
+                              ? const AssetImage(
+                                  'assets/img_profile.png',
+                                )
+                              : NetworkImage(user.profilePicture!)
+                                  as ImageProvider,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                margin: EdgeInsets.all(defaultMargin),
+                child: Column(
+                  children: [
+                    // buildProfile(context),
+                    buildWalletCard(),
+                    buildLevel(),
+                    buildServices(context),
+                    buildLatestTransactions(),
+                    buildSendAgain(),
+                    buildFriendlyTips(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+        Positioned(
+          right: 10, // X position
+          top: MediaQuery.of(context).size.height *
+              piggyBankPosition, // Y position
+          child: GestureDetector(
+            onTap: () {
+              print("Icon clicked!");
+            },
+            child: Draggable(
+              feedback: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: kPurpleColor,
+                ),
+                child: const Icon(
+                  Icons.catching_pokemon,
+                  color: Colors.white,
+                  size: 50,
+                ),
+              ),
+              childWhenDragging: Container(),
+              onDragEnd: (details) {
+                setState(() {
+                  if (details.offset.dy / (MediaQuery.of(context).size.height) >
+                      0.75) {
+                    piggyBankPosition = 0.75;
+                  } else if (details.offset.dy /
+                          (MediaQuery.of(context).size.height) <
+                      0.18) {
+                    piggyBankPosition = 0.18;
+                  } else {
+                    piggyBankPosition = details.offset.dy /
+                        (MediaQuery.of(context).size.height);
+                  }
+                  _controller.forward().then((_) => _controller.reverse());
+                });
+              },
+              child: ScaleTransition(
+                scale: _animation,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: kPurpleColor,
+                  ),
+                  child: const Icon(
+                    Icons.catching_pokemon,
+                    color: Colors.white,
+                    size: 50,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-        SliverToBoxAdapter(
-          child: Container(
-            margin: EdgeInsets.all(defaultMargin),
-            child: Column(
-              children: [
-                // buildProfile(context),
-                buildWalletCard(),
-                buildLevel(),
-                buildServices(context),
-                buildLatestTransactions(),
-                buildSendAgain(),
-                buildFriendlyTips(),
-              ],
-            ),
           ),
-        )
+        ),
       ],
     );
     // ListView(
@@ -448,21 +532,18 @@ class _HomeContentState extends State<HomeContent> {
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return BlocProvider(
-                    create: (context) =>
-                        TransactionBloc()..add(TransactionsGet(db!)),
-                    child: BlocBuilder<TransactionBloc, TransactionState>(
-                      builder: (context, state) {
-                        if (state is TransactionSuccess) {
-                          return _buildTransactionList(state.transactions);
-                        } else if (state is TransactionFailed) {
-                          return _buildTransactionList(transactions);
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
+                  context.read<TransactionBloc>().add(TransactionsGet(db));
+                  return BlocBuilder<TransactionBloc, TransactionState>(
+                    builder: (context, state) {
+                      if (state is TransactionSuccess) {
+                        return _buildTransactionList(state.transactions);
+                      } else if (state is TransactionFailed) {
+                        return _buildTransactionList(transactions);
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   );
                 }
               },
