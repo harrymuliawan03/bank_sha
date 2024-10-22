@@ -103,38 +103,38 @@ class RewardContent extends StatelessWidget {
             ],
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            // Update the transactions when the button is pressed
-            context.read<TransactionCubit>().updateTransaction([
-              'Transaction 1',
-              'Transaction 2',
-              'Transaction 3',
-            ]);
-          },
-          child: Text('Update Transactions'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // Update the transactions when the button is pressed
-            context.read<TransactionCubit>().updateTransaction([
-              'Transaction 3',
-              'Transaction 2',
-              'Transaction 1',
-            ]);
-          },
-          child: Text('Update Transactions 2'),
-        ),
-        BlocBuilder<TransactionCubit, TransactionState>(
-          builder: (context, state) {
-            if (state.transactions.isEmpty) {
-              return Center(child: Text('No transactions available'));
-            }
-            return Column(
-              children: state.transactions.map((e) => Text(e)).toList(),
-            );
-          },
-        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     // Update the transactions when the button is pressed
+        //     context.read<TransactionCubit>().updateTransaction([
+        //       'Transaction 1',
+        //       'Transaction 2',
+        //       'Transaction 3',
+        //     ]);
+        //   },
+        //   child: Text('Update Transactions'),
+        // ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     // Update the transactions when the button is pressed
+        //     context.read<TransactionCubit>().updateTransaction([
+        //       'Transaction 3',
+        //       'Transaction 2',
+        //       'Transaction 1',
+        //     ]);
+        //   },
+        //   child: Text('Update Transactions 2'),
+        // ),
+        // BlocBuilder<TransactionCubit, TransactionState>(
+        //   builder: (context, state) {
+        //     if (state.transactions.isEmpty) {
+        //       return Center(child: Text('No transactions available'));
+        //     }
+        //     return Column(
+        //       children: state.transactions.map((e) => Text(e)).toList(),
+        //     );
+        //   },
+        // ),
         const SizedBox(
           height: 50,
         ),

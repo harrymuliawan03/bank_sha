@@ -3,11 +3,13 @@ import 'package:bank_sha/modules/auth/models/sign_up_form_model.dart';
 import 'package:bank_sha/modules/data_provider/models/data_provider_model.dart';
 import 'package:bank_sha/modules/topup/models/topup_request_model.dart';
 import 'package:bank_sha/modules/transfer/models/transfer_request_model.dart';
+import 'package:bank_sha/modules/withdraw/models/withdraw_request_model.dart';
 import 'package:bank_sha/pages/data_package/data_package_page.dart';
 import 'package:bank_sha/pages/data_provider/data_provider_page.dart';
 import 'package:bank_sha/pages/data_success/data_success_page.dart';
 import 'package:bank_sha/pages/home/home_page.dart';
 import 'package:bank_sha/pages/onboarding/onboarding_page.dart';
+import 'package:bank_sha/pages/payment_success/payment_success_page.dart';
 import 'package:bank_sha/pages/pin/pin_page.dart';
 import 'package:bank_sha/pages/profile/profile_page.dart';
 import 'package:bank_sha/pages/profile_edit/profile_edit_page.dart';
@@ -26,6 +28,12 @@ import 'package:bank_sha/pages/topup_success/topup_success.dart';
 import 'package:bank_sha/pages/transfer/transfer_page.dart';
 import 'package:bank_sha/pages/transfer_amount/transfer_amount_page.dart';
 import 'package:bank_sha/pages/transfer_success/transfer_success_page.dart';
+import 'package:bank_sha/pages/voucher/detail/voucher_detail.dart';
+import 'package:bank_sha/pages/voucher/success/voucher_success_page.dart';
+import 'package:bank_sha/pages/voucher/voucher_page.dart';
+import 'package:bank_sha/pages/withdraw/withdraw_page.dart';
+import 'package:bank_sha/pages/withdraw_amount/withdraw_amount_page.dart';
+import 'package:bank_sha/pages/withdraw_success/withdraw_success.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -177,6 +185,31 @@ final GoRouter router = GoRouter(
           ],
         ),
 
+        // Topup
+        GoRoute(
+          name: RouteNames.withdraw,
+          path: 'withdraw',
+          builder: (BuildContext context, GoRouterState state) {
+            return const WithdrawPage();
+          },
+          routes: [
+            GoRoute(
+              name: RouteNames.withdrawAmount,
+              path: 'withdraw-amount',
+              builder: (BuildContext context, GoRouterState state) {
+                return const WithdrawAmountPage();
+              },
+            ),
+            GoRoute(
+              name: RouteNames.withdrawSuccess,
+              path: 'withdraw-success',
+              builder: (BuildContext context, GoRouterState state) {
+                return const WithdrawSuccessPage();
+              },
+            ),
+          ],
+        ),
+
         // Transfer
         GoRoute(
           name: RouteNames.transfer,
@@ -230,6 +263,38 @@ final GoRouter router = GoRouter(
               },
             ),
           ],
+        ),
+
+        GoRoute(
+          name: RouteNames.voucher,
+          path: 'voucher-provider',
+          builder: (context, state) {
+            return const VoucherPage();
+          },
+          routes: [
+            GoRoute(
+              name: RouteNames.voucherDetail,
+              path: 'voucher-detail',
+              builder: (context, state) {
+                return const VoucherDetailPage();
+              },
+            ),
+            GoRoute(
+              name: RouteNames.voucherSuccess,
+              path: 'voucher-success',
+              builder: (context, state) {
+                return const VoucherSuccessPage();
+              },
+            ),
+          ],
+        ),
+
+        GoRoute(
+          name: RouteNames.paymentSuccess,
+          path: 'payment-success',
+          builder: (context, state) {
+            return const PaymentSuccessPage();
+          },
         ),
       ],
     ),

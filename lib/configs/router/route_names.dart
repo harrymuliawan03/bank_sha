@@ -26,6 +26,11 @@ class RouteNames {
   static const topupAmount = 'topup-amount';
   static const topupSuccess = 'topup-success';
 
+  // topup
+  static const withdraw = 'withdraw';
+  static const withdrawAmount = 'withdraw-amount';
+  static const withdrawSuccess = 'withdraw-success';
+
   // transfer
   static const transfer = 'transfer';
   static const transferAmount = 'transfer-amount';
@@ -38,4 +43,12 @@ class RouteNames {
   static const dataProvider = 'data-provider';
   static const dataPackage = 'data-package';
   static const dataSuccess = 'data-success';
+
+  // voucher games
+  static const voucher = 'voucher';
+  static const voucherDetail = 'voucher-detail';
+  static const voucherSuccess = 'voucher-success';
+
+  // Payment Success
+  static const paymentSuccess = 'payment-success';
 }

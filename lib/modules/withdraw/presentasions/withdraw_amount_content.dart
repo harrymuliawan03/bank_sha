@@ -1,28 +1,27 @@
 import 'package:bank_sha/blocs/auth/auth_bloc.dart';
-import 'package:bank_sha/blocs/transfer/transfer_bloc.dart';
+import 'package:bank_sha/blocs/topup/topup_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
-import 'package:bank_sha/modules/transfer/models/transfer_request_model.dart';
+import 'package:bank_sha/modules/topup/models/topup_request_model.dart';
+import 'package:bank_sha/modules/withdraw/models/withdraw_request_model.dart';
 import 'package:bank_sha/shared/helpers.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class TransferAmountContent extends StatefulWidget {
-  final TransferRequestModel data;
-
-  const TransferAmountContent({
+class WithdrawAmountContent extends StatefulWidget {
+  const WithdrawAmountContent({
     super.key,
-    required this.data,
   });
 
   @override
-  State<TransferAmountContent> createState() => _TransferAmountContentState();
+  State<WithdrawAmountContent> createState() => WithdrawAmountContentState();
 }
 
-class _TransferAmountContentState extends State<TransferAmountContent> {
+class WithdrawAmountContentState extends State<WithdrawAmountContent> {
   final TextEditingController amountController =
       TextEditingController(text: '0');
 
@@ -82,24 +81,25 @@ class _TransferAmountContentState extends State<TransferAmountContent> {
     return Scaffold(
         backgroundColor: kDarkBackgroundColor,
         body: BlocProvider(
-          create: (context) => TransferBloc(),
-          child: BlocConsumer<TransferBloc, TransferState>(
-            listener: (context, state) {
-              if (state is TransferFailed) {
-                showCustomSnackbar(context, state.e);
-              }
+          create: (context) => TopupBloc(),
+          child: BlocConsumer<TopupBloc, TopupState>(
+            listener: (context, state) async {
+              // if (state is TopupFailed) {
+              //   showCustomSnackbar(context, state.e);
+              // }
 
-              if (state is TransferSuccess) {
-                if (context.mounted) {
-                  final amount =
-                      int.parse(amountController.text.replaceAll('.', '')) *
-                          (-1);
+              // if (state is TopupSuccess) {
+              //   await launchUrlString(state.redirectUrl);
+              //   if (context.mounted) {
+              //     context.read<AuthBloc>().add(
+              //           AuthUpdateBalance(
+              //             int.parse(amountController.text.replaceAll('.', '')),
+              //           ),
+              //         );
 
-                  context.read<AuthBloc>().add(AuthUpdateBalance(amount));
-
-                  context.goNamed(RouteNames.transferSuccess);
-                }
-              }
+              //     context.goNamed(RouteNames.topupSuccess);
+              //   }
+              // }
             },
             builder: (context, state) {
               return ListView(
@@ -112,7 +112,7 @@ class _TransferAmountContentState extends State<TransferAmountContent> {
                   ),
                   Center(
                     child: Text(
-                      'Total Amount',
+                      'Total Amount Withdraw',
                       style: whiteTextStyle.copyWith(
                         fontSize: 20,
                         fontWeight: semiBold,
@@ -242,32 +242,18 @@ class _TransferAmountContentState extends State<TransferAmountContent> {
                     height: 50,
                   ),
                   CustomFilledButton(
-                    title: 'Transfer Now',
+                    title: 'Continue',
                     onPressed: () async {
                       if (int.parse(amountController.text.replaceAll('.', '')) <
                           20000) {
                         return showCustomSnackbar(
-                            context, 'Minimal nominal transfer Rp. 20.000');
+                            context, 'Minimal nominal topup Rp. 20.000');
                       }
                       if (await GoRouter.of(context)
                               .pushNamed(RouteNames.checkPin) ==
                           true) {
                         if (context.mounted) {
-                          final authState = context.read<AuthBloc>().state;
-                          String pin = '';
-                          if (authState is AuthSuccess) {
-                            pin = authState.user.pin!;
-                          }
-
-                          context.read<TransferBloc>().add(
-                                TransferPost(
-                                  widget.data.copyWith(
-                                    pin: pin,
-                                    amount: amountController.text
-                                        .replaceAll(".", ''),
-                                  ),
-                                ),
-                              );
+                          context.goNamed(RouteNames.withdrawSuccess);
                         }
                       }
                     },

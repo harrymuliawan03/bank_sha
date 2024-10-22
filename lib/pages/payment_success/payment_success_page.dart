@@ -4,8 +4,8 @@ import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class TopupSuccessPage extends StatelessWidget {
-  const TopupSuccessPage({super.key});
+class PaymentSuccessPage extends StatelessWidget {
+  const PaymentSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class TopupSuccessPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Top Up\nWallet Berhasil',
+              'Pembelian Berhasil',
               style: blackTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: semiBold,

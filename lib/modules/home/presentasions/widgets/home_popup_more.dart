@@ -41,29 +41,33 @@ class HomePopupMore extends StatelessWidget {
                 children: [
                   HomeServiceItem(
                     iconUrl: 'assets/ic_product_data.png',
-                    title: 'Data',
+                    title: 'Pulsa',
                     onTap: () {
+                      context.pop();
                       context.goNamed(RouteNames.dataProvider);
                     },
                   ),
                   HomeServiceItem(
                     iconUrl: 'assets/ic_product_water.png',
-                    title: 'Water',
+                    title: 'PDAM',
                     onTap: () {},
                   ),
                   HomeServiceItem(
-                    iconUrl: 'assets/ic_product_stream.png',
-                    title: 'Stream',
+                    iconUrl: 'assets/ic_product_pln.jpg',
+                    title: 'PLN',
                     onTap: () {},
                   ),
                   HomeServiceItem(
-                    iconUrl: 'assets/ic_product_movie.png',
-                    title: 'Movie',
-                    onTap: () {},
+                    iconUrl: 'assets/ic_product_voucher_games.png',
+                    title: 'Voucher',
+                    onTap: () {
+                      context.pop();
+                      context.goNamed(RouteNames.voucher);
+                    },
                   ),
                   HomeServiceItem(
-                    iconUrl: 'assets/ic_product_food.png',
-                    title: 'Food',
+                    iconUrl: 'assets/ic_product_donation.png',
+                    title: 'Donasi',
                     onTap: () {},
                   ),
                   HomeServiceItem(

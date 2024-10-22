@@ -174,15 +174,19 @@ class _HomeContentState extends State<HomeContent>
             },
             child: Draggable(
               feedback: Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: kPurpleColor,
                 ),
-                child: const Icon(
-                  Icons.catching_pokemon,
-                  color: Colors.white,
-                  size: 50,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Image.asset(
+                    'assets/gift-box.jpg',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover, // Ensure the image fits the container
+                  ),
                 ),
               ),
               childWhenDragging: Container(),
@@ -205,15 +209,19 @@ class _HomeContentState extends State<HomeContent>
               child: ScaleTransition(
                 scale: _animation,
                 child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     color: kPurpleColor,
                   ),
-                  child: const Icon(
-                    Icons.catching_pokemon,
-                    color: Colors.white,
-                    size: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.asset(
+                      'assets/gift-box.jpg',
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover, // Ensure the image fits the container
+                    ),
                   ),
                 ),
               ),
@@ -480,7 +488,9 @@ class _HomeContentState extends State<HomeContent>
               HomeServiceItem(
                 iconUrl: 'assets/ic_withdraw.png',
                 title: 'Withdraw',
-                onTap: () {},
+                onTap: () {
+                  context.goNamed(RouteNames.withdraw);
+                },
               ),
               HomeServiceItem(
                 iconUrl: 'assets/ic_more.png',

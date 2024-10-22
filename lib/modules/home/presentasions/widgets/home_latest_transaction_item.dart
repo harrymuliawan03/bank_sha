@@ -13,17 +13,19 @@ class HomeLatestTransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(transaction.transactionType!.thumbnail!);
     return Container(
       margin: const EdgeInsets.only(
         bottom: 18,
       ),
       child: Row(
         children: [
-          Image.network(
-            transaction.transactionType!.thumbnail!,
-            errorBuilder: (context, error, stackTrace) {
-              return Text(transaction.transactionType!.name!);
-            },
+          Image.asset(
+            transaction.transactionType!.id == 1
+                ? 'assets/ic_trx_transfer.png'
+                : transaction.transactionType!.id == 2
+                    ? 'assets/ic_trx_payment.png'
+                    : 'assets/ic_trx_topup.png',
             width: 48,
           ),
           const SizedBox(
