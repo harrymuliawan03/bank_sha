@@ -79,7 +79,6 @@ class _HomeContentState extends State<HomeContent>
       setState(() {
         transactions = res;
       });
-      print('res $res');
     } catch (e) {
       print(e);
     }
@@ -170,7 +169,7 @@ class _HomeContentState extends State<HomeContent>
               piggyBankPosition, // Y position
           child: GestureDetector(
             onTap: () {
-              print("Icon clicked!");
+              // print("Icon clicked!");
             },
             child: Draggable(
               feedback: Container(

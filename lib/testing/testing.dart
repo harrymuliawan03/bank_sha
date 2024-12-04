@@ -11,7 +11,6 @@ class MyWidget extends StatefulWidget {
 class _MyWidgetState extends State<MyWidget> {
   Future<void> getDataTesting() async {
     var res = await TestingUserCase.getUserByUsernameCase("Harry");
-    print(res);
   }
 
   @override

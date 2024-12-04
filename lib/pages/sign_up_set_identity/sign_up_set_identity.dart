@@ -153,9 +153,7 @@ class _SignUpSetIdentityPageState extends State<SignUpSetIdentityPage> {
                         ),
                         ButtonWidget(
                             onPress: () {
-                              print(widget.data.profilePicture);
                               if (selectedImage != null) {
-                                print(widget.data);
                                 context.read<AuthBloc>().add(
                                       AuthRegister(
                                         widget.data.copyWith(

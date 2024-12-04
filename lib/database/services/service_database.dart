@@ -26,11 +26,9 @@ class ServiceDatabase {
     try {
       // Use insertOnConflictUpdate to handle insertion or update
       final res = await db.into(table).insertOnConflictUpdate(data);
-      print('res $res');
       return ResponseDatabase<T>(
           valid: true, data: null, message: 'Success added or updated data');
     } catch (e) {
-      print(e);
       return ResponseDatabase<T>(
           valid: false, data: null, message: 'Failed to add or update data');
     }

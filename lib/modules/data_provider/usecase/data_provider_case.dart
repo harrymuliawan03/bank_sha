@@ -5,7 +5,6 @@ import 'package:bank_sha/modules/data_provider/repository/data_provider_repo.dar
 
 Future<ResponseUseCase<List<DataProviderModel>>> getDataProvidersCase() async {
   var res = await getDataProvidersRepo<List<Map<String, dynamic>>>();
-  print(res);
 
   if (res.success) {
     List<DataProviderModel> data = List<DataProviderModel>.from(res.response!

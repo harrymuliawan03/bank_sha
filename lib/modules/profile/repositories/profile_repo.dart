@@ -4,7 +4,6 @@ import 'package:bank_sha/modules/profile/models/profile_edit_form_model.dart';
 import 'package:bank_sha/modules/profile/models/profile_edit_pin_form_model.dart';
 
 Future<ResponseUseCase<T>> editProfileRepo<T>(ProfileEditFormModel data) async {
-  print(data);
   var res = await putDataWithToken<T>(
     '/users',
     data,
