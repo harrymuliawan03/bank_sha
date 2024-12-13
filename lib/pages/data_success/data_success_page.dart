@@ -1,8 +1,10 @@
+import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/shared/theme.dart';
 import 'package:bank_sha/shared/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DataSuccessPage extends StatelessWidget {
   const DataSuccessPage({super.key});
@@ -39,6 +41,7 @@ class DataSuccessPage extends StatelessWidget {
               width: 183,
               title: 'Back to Home',
               onPressed: () {
+                context.read<TransactionBloc>().add(TransactionsRefresh());
                 context.goNamed(RouteNames.home);
               },
             ),

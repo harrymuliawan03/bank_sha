@@ -143,11 +143,19 @@ class ProfileContent extends StatelessWidget {
                           //   title: 'My Rewards',
                           //   onTap: () {},
                           // ),
-                          // ProfileMenuItem(
-                          //   iconUrl: 'assets/ic_help.png',
-                          //   title: 'Help Center',
-                          //   onTap: () {},
-                          // ),
+                          ProfileMenuItem(
+                            iconUrl: 'assets/ic_chain.png',
+                            title: 'Connected Apps',
+                            onTap: () async {
+                              context.goNamed(RouteNames.connectedApps);
+                              // if (await GoRouter.of(context)
+                              //         .pushNamed(RouteNames.checkPin) ==
+                              //     true) {
+                              //   if (context.mounted) {
+                              //   }
+                              // }
+                            },
+                          ),
                           ProfileMenuItem(
                             iconUrl: 'assets/ic_logout.png',
                             title: 'Log Out',

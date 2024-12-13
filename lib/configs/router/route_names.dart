@@ -21,6 +21,9 @@ class RouteNames {
   static const profileEditPin = 'profile-edit-pin';
   static const profileEditSuccess = 'profile-edit-success';
 
+  // connected
+  static const connectedApps = 'connected-apps';
+
   // topup
   static const topup = 'topup';
   static const topupAmount = 'topup-amount';

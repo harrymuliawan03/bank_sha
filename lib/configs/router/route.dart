@@ -1,9 +1,10 @@
+import 'package:bank_sha/blocs/transaction/transaction_bloc.dart';
 import 'package:bank_sha/configs/router/route_names.dart';
 import 'package:bank_sha/modules/auth/models/sign_up_form_model.dart';
 import 'package:bank_sha/modules/data_provider/models/data_provider_model.dart';
 import 'package:bank_sha/modules/topup/models/topup_request_model.dart';
 import 'package:bank_sha/modules/transfer/models/transfer_request_model.dart';
-import 'package:bank_sha/modules/withdraw/models/withdraw_request_model.dart';
+import 'package:bank_sha/pages/connected_apps/connected_apps_page.dart';
 import 'package:bank_sha/pages/data_package/data_package_page.dart';
 import 'package:bank_sha/pages/data_provider/data_provider_page.dart';
 import 'package:bank_sha/pages/data_success/data_success_page.dart';
@@ -36,6 +37,7 @@ import 'package:bank_sha/pages/withdraw_amount/withdraw_amount_page.dart';
 import 'package:bank_sha/pages/withdraw_success/withdraw_success.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
@@ -147,14 +149,23 @@ final GoRouter router = GoRouter(
                 return const ProfileEditPinPage();
               },
             ),
+
+            // Connected Apps Route
             GoRoute(
-              name: RouteNames.profileEditSuccess,
-              path: 'profile-edit-success',
+              name: RouteNames.connectedApps,
+              path: 'connected',
               builder: (BuildContext context, GoRouterState state) {
-                return const ProfileEditSuccessPage();
+                return const ConnectedAppsPage();
               },
             ),
           ],
+        ),
+        GoRoute(
+          name: RouteNames.profileEditSuccess,
+          path: 'profile-edit-success',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ProfileEditSuccessPage();
+          },
         ),
 
         // Topup
@@ -255,14 +266,18 @@ final GoRouter router = GoRouter(
                 );
               },
             ),
-            GoRoute(
-              name: RouteNames.dataSuccess,
-              path: 'data-success',
-              builder: (context, state) {
-                return const DataSuccessPage();
-              },
-            ),
           ],
+        ),
+        GoRoute(
+          name: RouteNames.dataSuccess,
+          path: 'data-success',
+          builder: (context, state) {
+            return const DataSuccessPage();
+          },
+          onExit: (context) {
+            context.read<TransactionBloc>().add(TransactionsRefresh());
+            return true;
+          },
         ),
 
         GoRoute(

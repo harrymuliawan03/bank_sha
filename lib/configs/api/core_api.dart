@@ -273,6 +273,48 @@ Future<HttpResponse> getData<T>(String url, String? token) async {
   }
 }
 
+Future<HttpResponse> getDataLocalhost<T>(String url, String? token) async {
+  try {
+    final response = await http.get(
+      Uri.parse('$baseUrlLocalhost$url'),
+      headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+    );
+
+    final data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return HttpResponse(
+        success: true,
+        response: data['data'],
+        status: true,
+        message: data['message'] ?? 'Succesfully get data',
+      );
+    }
+
+    String message;
+    if (response.body.contains("errors")) {
+      Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      message = errorResponse["errors"].values.first[0];
+    } else {
+      message = jsonDecode(response.body)['message'];
+    }
+    return HttpResponse(
+      success: false,
+      response: null,
+      status: false,
+      message: message,
+    );
+  } catch (error) {
+    return HttpResponse(
+        success: false,
+        response: null,
+        status: false,
+        message: error.toString());
+  }
+}
+
 Future<HttpResponse> deleteData<T>(String url, dynamic body) async {
   try {
     final response = await http.post(

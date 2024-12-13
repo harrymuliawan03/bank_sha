@@ -16,3 +16,5 @@ class TransactionGetLocal extends TransactionEvent {
   final AppDatabase database;
   const TransactionGetLocal(this.database);
 }
+
+class TransactionsRefresh extends TransactionEvent {}
